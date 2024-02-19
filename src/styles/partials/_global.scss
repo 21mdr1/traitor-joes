@@ -1,0 +1,22 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+button, input, textarea, input::placeholder, textarea::placeholder {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

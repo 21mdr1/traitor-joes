@@ -1,0 +1,16 @@
+@use '../../styles/partials/variables' as *;
+
+.button {
+    border: none;
+    width: 100%;
+    background-color: $teal;
+    color: white;
+    padding: 1rem;
+    font-size: 1.25rem;
+    margin: 1rem;
+
+    &:hover {
+        background-color: $blue;
+        cursor: pointer;
+    }
+}
