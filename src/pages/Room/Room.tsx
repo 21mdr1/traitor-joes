@@ -10,14 +10,15 @@ function Room() {
 
     const isRoomOwner = true
 
-
     return (
         <main className="main main--room">
-            <p>Room code: { roomCode }</p>
-            <h1>Players:</h1>
-            <ol>
-                {players.map(player => <li>{ player }{isRoomOwner && '  x'}</li>)}
-            </ol>
+            <p className="room-code">Room code: { roomCode }</p>
+            <div className="players">
+                <h1 className="players__title">Players:</h1>
+                <ol className="players__list">
+                    {players.map(player => <li className="players__item">{ player }{isRoomOwner && '  x'}</li>)}
+                </ol>
+            </div> 
             {isRoomOwner &&
                 <Button type="button" onClick={() => {navigate("/trader-joes")}}>Start Game</Button>
             }
