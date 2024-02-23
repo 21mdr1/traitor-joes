@@ -1,5 +1,7 @@
 import Button from '../../components/Button/Button';
 import { useNavigate, useParams } from 'react-router';
+import { useEffect, useState } from 'react';
+import socket from '../../socket';
 import './Room.scss';
 
 function Room() {
@@ -16,7 +18,7 @@ function Room() {
             <div className="players">
                 <h1 className="players__title">Players:</h1>
                 <ol className="players__list">
-                    {players.map(player => <li className="players__item">{ player }{isRoomOwner && '  x'}</li>)}
+                    {players.map(player => <li key={ player } className="players__item">{ player }{isRoomOwner && '  x'}</li>)}
                 </ol>
             </div> 
             {isRoomOwner &&
