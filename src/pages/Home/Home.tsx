@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import { generateRandomCode } from '../../utils/mathUtils';
 import Button from '../../components/Button/Button';
 import socket from '../../socket';
 import './Home.scss';
@@ -11,6 +12,7 @@ function Home({ setIsRoomOwner }: {
     const navigate = useNavigate();
 
     function createNewGame(): void {
+        const roomCode = generateRandomCode(5);
         socket.connect();
         setIsRoomOwner(true);
         navigate(`/room/${socket.id}`);
