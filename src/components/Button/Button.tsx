@@ -4,7 +4,7 @@ import './Button.scss';
 function Button({ type, children, onClick }: {
     type?: 'submit' | 'reset' | 'button';
     children: ReactNode;
-    onClick: MouseEventHandler<HTMLButtonElement>;
+    onClick?: MouseEventHandler<HTMLButtonElement>; 
 } ) {
     return (
         <button className="button" type={ type } onClick={ onClick }>{ children }</button>

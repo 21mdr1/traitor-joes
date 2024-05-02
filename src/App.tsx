@@ -19,7 +19,7 @@ function App() {
         function onConnect() {
             setIsConnected(true);
             setSocketId(socket.id);
-            console.log("connected", socket.id);
+            // console.log("connected", socket.id);
         }
 
         //socket.emit('custom-event', 10, 'H1', {a: 'a'});
