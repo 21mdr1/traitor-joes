@@ -1,9 +1,9 @@
 @use '../../styles/partials/variables' as *;
 
 .input {
-    border: $gray;
+    border: $dark-gray;
     width: 100%;
-    background-color: $gray;
+    background-color: $dark-gray;
     padding: 1rem;
     font-size: 1.25rem;
     margin: 0.5rem 0;

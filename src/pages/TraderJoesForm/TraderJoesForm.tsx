@@ -17,22 +17,24 @@ function TraderJoesForm() {
     }
 
     return (
-        <form onSubmit={formSubmitionHandler} className='date-form'>
-            <label 
-                className='date-form__label' 
-                htmlFor='date'
-            >
-                When was the last time you went to Trader Joes?
-            </label>
-            <Input 
-                id='date'
-                name='date' 
-                type='text'
-                onChange={inputChangeHandler}
-                value={date}
-            />
-            <Button type='submit'>Submit</Button>
-        </form>
+        <main className="main main--tjform">
+            <form onSubmit={formSubmitionHandler} className='date-form'>
+                <label 
+                    className='date-form__label' 
+                    htmlFor='date'
+                >
+                    When was the last time you went to Trader Joes?
+                </label>
+                <Input 
+                    id='date'
+                    name='date' 
+                    type='text'
+                    onChange={inputChangeHandler}
+                    value={date}
+                />
+                <Button type='submit'>Submit</Button>
+            </form>
+        </main>
     );
 }
 
