@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import Button from '../../components/Button/Button';
+import CharacterInfo from '../../components/CharacterInfo/CharacterInfo';
+import NextStoreLeader from '../../components/NextStoreLeader/NextStoreLeader';
 import './CrewMember.scss';
 
 function CrewMember() {
 
     const [ info, setInfo ] = useState(false);
+    const [ nextStoreLeader, setNextStoreLeader ] = useState(false);
 
     return (
         <main className='main main--crew'>
@@ -25,16 +27,8 @@ function CrewMember() {
                     })}
                 </div>
             </div>
-            {info && (
-                <div className="info">
-                    <h1 className="info__title">You are a traitor</h1>
-                    <div className="info__content">
-                        <div className="info__image"></div>
-                        <p className="info__text">You are a traitor. Your goal is to get rotten produce into the shelves without getting caught.</p>
-                    </div>
-                    <Button>Ok</Button>
-                </div>
-            )}
+            { info && <CharacterInfo /> }
+            { nextStoreLeader && <NextStoreLeader/> }
         </main>
     );
 }
