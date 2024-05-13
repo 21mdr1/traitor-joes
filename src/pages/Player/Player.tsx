@@ -9,10 +9,10 @@ function Player() {
 
         return (
             <main className='main main--player'>
-                <div className="players">
+                <div className="other-players">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => {
                         return (
-                            <div className='players__avi'></div>
+                            <div className='other-players__avi'></div>
                         );
                     })}
                 </div>

@@ -1,6 +1,31 @@
 
 .main {
-    &--rules {
-        height: auto;
+    &.main--rules {
+        height: fit-content;
+        padding-bottom: 1rem;
+    }
+}
+
+.rules {
+
+    &__title {
+       margin-bottom: 1.25rem;
+    }
+
+    &__subtitle {
+        margin: 1rem 0;
+    }
+
+    &__small-heading {
+        margin: 0.75rem 0;
+    }
+
+    &__list {
+        list-style: auto;
+        margin-left: 1rem;
+    }
+
+    &__list-item {
+        margin: 0.5rem 0;
     }
 }
