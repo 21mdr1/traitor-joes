@@ -1,15 +1,18 @@
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import './TraderJoesForm.scss';
 
 function TraderJoesForm() {
+    const navigate = useNavigate();
 
     const [ date, setDate ] = useState('');
 
     function formSubmitionHandler(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         console.log(date);
+        navigate('/player');
     }
 
     function inputChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {
@@ -28,7 +31,7 @@ function TraderJoesForm() {
                 <Input 
                     id='date'
                     name='date' 
-                    type='text'
+                    type='date'
                     onChange={inputChangeHandler}
                     value={date}
                 />

@@ -4,8 +4,8 @@ import './StoreLeader.scss';
 
 function StoreLeader() {
 
-    const [ team, setTeam ] = useState(false);
-    const [ shelf, setShelf ] = useState(true);
+    const [ team, setTeam ] = useState(true);
+    const [ shelf, setShelf ] = useState(false);
 
     return (
         <main className="main main--lead">
