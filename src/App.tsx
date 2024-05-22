@@ -6,6 +6,7 @@ import CrewMember from './pages/CrewMemeber/CrewMember';
 import StoreLeader from './pages/StoreLeader/StoreLeader';
 import TraderJoesForm from './pages/TraderJoesForm/TraderJoesForm';
 import Rules from './pages/Rules/Rules';
+import Name from './components/Name/Name';
 import { useEffect, useState } from 'react';
 import socket from './socket';
 import './App.scss';
@@ -50,6 +51,7 @@ function App() {
               <Route path="/store-leader" element={ <StoreLeader /> } />
               <Route path="/trader-joes" element={ <TraderJoesForm /> } />
           </Routes>
+          {!userName && (<Name />)}
       </BrowserRouter>
     );
 }
