@@ -13,4 +13,8 @@
         background-color: $blue;
         cursor: pointer;
     }
+
+    &[disabled] {
+        background-color: darkgray;
+    }
 }

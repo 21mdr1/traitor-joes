@@ -15,7 +15,7 @@ function App() {
     const [ socketId, setSocketId ] = useState<string | undefined>("");
     const [ isConnected, setIsConnected ] = useState(socket.connected);
     const [ isRoomOwner, setIsRoomOwner ] = useState(false);
-    const [ userName, setUserName ] = useState(""); // will be saved in localStorage
+    const [ userName, setUserName ] = useState<string>(localStorage.getItem('name') || ""); // will be saved in localStorage
 
     useEffect(() => {
         function onConnect() {
@@ -51,7 +51,7 @@ function App() {
               <Route path="/store-leader" element={ <StoreLeader /> } />
               <Route path="/trader-joes" element={ <TraderJoesForm /> } />
           </Routes>
-          {!userName && (<Name />)}
+          {!userName && (<Name setUserName={setUserName} />)}
       </BrowserRouter>
     );
 }
