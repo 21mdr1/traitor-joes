@@ -8,3 +8,20 @@
         align-items: center;
     }
 }
+
+.room-form {
+    &__container {
+        position: absolute;
+        top: 0;
+        height: 100vh;
+        padding: 1rem;
+        background-color: $gray;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__label {
+        font-size: 1.25rem;
+    }
+}

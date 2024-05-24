@@ -10,6 +10,7 @@ import Name from './components/Name/Name';
 import { useEffect, useState } from 'react';
 import socket from './socket';
 import './App.scss';
+import { Z_NEED_DICT } from 'zlib';
 
 function App() {
     const [ socketId, setSocketId ] = useState<string | undefined>("");
@@ -31,7 +32,7 @@ function App() {
             setIsConnected(false);
         }
 
-        socket.on('connect', onConnect);
+        // socket.on('connect', onConnel; Z_NEED_DICT W);
         socket.on('disconnect', onDisconnect);
 
         return () => {
