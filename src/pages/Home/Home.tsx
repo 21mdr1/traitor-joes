@@ -19,6 +19,11 @@ function Home({ setIsRoomOwner }: {
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setRoomCode(event.target.value);
     }
+    
+    function handleFormSubmition(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        joinGame(roomCode);
+    }
 
     function createNewGame(): void {
         const roomCode = generateRandomCode(5);
@@ -27,7 +32,7 @@ function Home({ setIsRoomOwner }: {
         navigate(`/room/${socket.id}`);
     }
 
-    function joinGame(): void {
+    function joinGame(roomCode: string): void {
         socket.connect();
         setIsRoomOwner(false);
         navigate(`/room/${socket.id}`);
@@ -39,7 +44,7 @@ function Home({ setIsRoomOwner }: {
             <Button type="button" onClick={() => setJoiningGame(true)}>Join Game</Button>
             {joiningGame && (
                 <div className='room-form__container'>
-                    <form className='room-form'>
+                    <form className='room-form' onSubmit={handleFormSubmition}>
                         <label htmlFor='room' className='room-form__label'>Enter Room Code:</label>
                         <Input
                             type='text'
