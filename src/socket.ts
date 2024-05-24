@@ -8,6 +8,7 @@ interface ServerToClientEvents {
 
 interface ClientToServerEvents {
     hello: () => void;
+    'join-room': (roomCode: string) => void;
 }
 
 const URL = process.env.REACT_APP_WEBSOCKET_URL || 'http://localhost:8080';

@@ -10,7 +10,10 @@ function Room() {
 
     let players = ['Maria', 'Ben', 'Katie', 'Christien', 'Christian', 'Julian']
 
-    const isRoomOwner = true
+    const isRoomOwner = true;
+    // leave button should leave the room
+    // socket.leave('roomName');
+    // socket.on('disconnecting' ...) on the client side, is how the client learns about being disconnected from a room
 
     return (
         <main className="main main--room">

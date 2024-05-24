@@ -10,30 +10,35 @@ import Name from './components/Name/Name';
 import { useEffect, useState } from 'react';
 import socket from './socket';
 import './App.scss';
-import { Z_NEED_DICT } from 'zlib';
 
 function App() {
-    const [ socketId, setSocketId ] = useState<string | undefined>("");
-    const [ isConnected, setIsConnected ] = useState(socket.connected);
+    // const [ socketId, setSocketId ] = useState<string | undefined>("");
+    // const [ isConnected, setIsConnected ] = useState(socket.connected);
     const [ isRoomOwner, setIsRoomOwner ] = useState(false);
     const [ userName, setUserName ] = useState<string>(localStorage.getItem('name') || ""); // will be saved in localStorage
 
     useEffect(() => {
         function onConnect() {
-            setIsConnected(true);
-            setSocketId(socket.id);
+            // setIsConnected(true);
+            // setSocketId(socket.id);
             // console.log("connected", socket.id);
         }
 
-        //socket.emit('custom-event', 10, 'H1', {a: 'a'});
-        //socket.emit()
-
         function onDisconnect() {
-            setIsConnected(false);
+            // setIsConnected(false);
         }
 
-        // socket.on('connect', onConnel; Z_NEED_DICT W);
+        socket.on('connect', onConnect);
         socket.on('disconnect', onDisconnect);
+
+        // on the client side: socket.emit('send-message', message, room);
+        // on the server side: 
+        // socket.on('send-message', (message, room) => {
+        //    socket.to(room).emit('receive-message', message);
+        //}
+        // on client side: socket.on("receive-message", message => {
+        //    do thing
+        //})
 
         return () => {
             socket.off('connect', onConnect);

@@ -22,25 +22,20 @@ function Home({ setIsRoomOwner }: {
     
     function handleFormSubmition(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        joinGame(roomCode);
+        joinGame(roomCode, false);
     }
 
-    function createNewGame(): void {
-        const roomCode = generateRandomCode(5);
+    function joinGame(roomCode: string, isRoomOwner: boolean) {
+        roomCode = roomCode.toUpperCase();
         socket.connect();
-        setIsRoomOwner(true);
-        navigate(`/room/${socket.id}`);
-    }
-
-    function joinGame(roomCode: string): void {
-        socket.connect();
-        setIsRoomOwner(false);
-        navigate(`/room/${socket.id}`);
+        socket.emit('join-room', roomCode);
+        setIsRoomOwner(isRoomOwner);
+        navigate(`/room/${roomCode}`);
     }
 
     return (  
         <main className="main main--home">
-            <Button type="button" onClick={createNewGame}>New Game</Button>
+            <Button type="button" onClick={() => {joinGame(generateRandomCode(5), true)}}>New Game</Button>
             <Button type="button" onClick={() => setJoiningGame(true)}>Join Game</Button>
             {joiningGame && (
                 <div className='room-form__container'>
