@@ -14,7 +14,7 @@ import './App.scss';
 function App() {
     // const [ socketId, setSocketId ] = useState<string | undefined>("");
     // const [ isConnected, setIsConnected ] = useState(socket.connected);
-    const [ isRoomOwner, setIsRoomOwner ] = useState(false);
+    const [ isRoomOwner, setIsRoomOwner ] = useState<boolean>(sessionStorage.getItem('isRoomOwner') === 'true' || false);
     const [ userName, setUserName ] = useState<string>(localStorage.getItem('name') || ""); // will be saved in localStorage
 
     useEffect(() => {

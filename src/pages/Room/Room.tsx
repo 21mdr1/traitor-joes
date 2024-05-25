@@ -18,6 +18,7 @@ function Room({ isRoomOwner }: {
     // leave button should leave the room
     // socket.leave('roomName');
     // socket.on('disconnecting' ...) on the client side, is how the client learns about being disconnected from a room
+    // remove room owner status when leaving room
 
     return (
         <main className="main main--room">

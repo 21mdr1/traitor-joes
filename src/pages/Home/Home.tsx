@@ -29,6 +29,7 @@ function Home({ setIsRoomOwner }: {
         roomCode = roomCode.toUpperCase();
         socket.connect();
         socket.emit('join-room', roomCode);
+        sessionStorage.setItem('isRoomOwner', JSON.stringify(isRoomOwner));
         setIsRoomOwner(isRoomOwner);
         navigate(`/room/${roomCode}`);
     }
