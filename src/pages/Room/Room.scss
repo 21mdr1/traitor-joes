@@ -1,3 +1,4 @@
+@use '../../styles/partials/variables' as *;
 
 .main {
     &--room {
@@ -11,6 +12,39 @@
 }
 
 .players {
-    margin-top: 1rem;
     flex-grow: 1;
+    padding: 1rem;
+
+    &__title {
+        margin-bottom: 1rem;
+    }
+
+    &__list {
+        margin: 0 2rem;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        margin: 0.75rem 0;
+    }
+
+    &__name {
+        font-size: 1.05rem;
+
+        &:has(+ .players__x:hover) {
+            text-decoration: line-through;
+        }
+    }
+
+    &__x {
+        font-size: 1.25rem;
+        color: $blue;
+        cursor: pointer;
+
+        &:hover {
+            color: red;
+            font-weight: 700;
+        }
+    }
 }

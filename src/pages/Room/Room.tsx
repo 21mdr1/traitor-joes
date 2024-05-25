@@ -4,13 +4,17 @@ import { useEffect, useState } from 'react';
 import socket from '../../socket';
 import './Room.scss';
 
-function Room() {
+function Room({ isRoomOwner }: {
+    isRoomOwner: boolean;
+}) {
+
+    // save isRoomOwner in sessionStorage or something
+
     const navigate = useNavigate();
     const { roomCode } = useParams();
 
     let players = ['Maria', 'Ben', 'Katie', 'Christien', 'Christian', 'Julian']
 
-    const isRoomOwner = true;
     // leave button should leave the room
     // socket.leave('roomName');
     // socket.on('disconnecting' ...) on the client side, is how the client learns about being disconnected from a room
@@ -21,7 +25,12 @@ function Room() {
             <div className="players">
                 <h1 className="players__title">Players:</h1>
                 <ol className="players__list">
-                    {players.map(player => <li key={ player } className="players__item">{ player }{isRoomOwner && '  x'}</li>)}
+                    {players.map(player => (
+                        <li key={ player } className="players__item">
+                            <div className='players__name'>{ player }</div>
+                            {isRoomOwner && <div className='players__x'>x</div>}
+                        </li>
+                    ))}
                 </ol>
             </div> 
             {isRoomOwner &&
