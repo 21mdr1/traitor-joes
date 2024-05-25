@@ -7,9 +7,6 @@ import './Room.scss';
 function Room({ isRoomOwner }: {
     isRoomOwner: boolean;
 }) {
-
-    // save isRoomOwner in sessionStorage or something
-
     const navigate = useNavigate();
     const { roomCode } = useParams();
 
@@ -19,6 +16,22 @@ function Room({ isRoomOwner }: {
     // socket.leave('roomName');
     // socket.on('disconnecting' ...) on the client side, is how the client learns about being disconnected from a room
     // remove room owner status when leaving room
+
+    function getPlayers() {
+
+    }
+
+    function removePlayer() {
+
+    }
+
+    function startGame() {
+
+    }
+
+    function leaveRoom() {
+
+    }
 
     return (
         <main className="main main--room">
