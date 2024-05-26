@@ -11,6 +11,7 @@ interface ClientToServerEvents {
     hello: () => void;
     'join-room': (roomCode: string) => void;
     'leave-room': (roomCode: string) => void;
+    'remove-user': (socketId: string, roomCode: string) => void;
 }
 
 interface InterServerEvents {
@@ -41,10 +42,15 @@ io.on('connection', socket => {
     socket.on('join-room', roomCode => {
         socket.join(roomCode);
         // console.log('joining-room', roomCode);
-    })
+    });
     socket.on('leave-room', roomCode => {
         socket.leave(roomCode);
+        // socket.to(room).emit('user left', socket.id)
         // console.log('leaving room', roomCode)
+    });
+    socket.on('remove-user', (socketId, roomCode) => {
+        // let user = io.sockets.connected[socketId];
+        // user.leave(roomCode)
     })
 })
 

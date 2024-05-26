@@ -1,6 +1,6 @@
 import Button from '../../components/Button/Button';
 import { useNavigate, useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import socket from '../../socket';
 import './Room.scss';
 
@@ -13,7 +13,14 @@ function Room({ isRoomOwner, setIsRoomOwner }: {
     const navigate = useNavigate();
     const { roomCode } = useParams();
 
-    let players = ['Maria', 'Ben', 'Katie', 'Christien', 'Christian', 'Julian']
+    let players = [
+        'Maria', 
+        'Ben', 
+        'Katie', 
+        'Christien', 
+        'Christian', 
+        'Julian'
+    ]
 
     useEffect(() => {
         function onDisconnect() {
