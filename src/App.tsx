@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Room from './pages/Room/Room';
 import Player from './pages/Player/Player';
@@ -12,20 +12,17 @@ import socket from './socket';
 import './App.scss';
 
 function App() {
-    // const [ socketId, setSocketId ] = useState<string | undefined>("");
-    // const [ isConnected, setIsConnected ] = useState(socket.connected);
     const [ isRoomOwner, setIsRoomOwner ] = useState<boolean>(sessionStorage.getItem('isRoomOwner') === 'true' || false);
-    const [ userName, setUserName ] = useState<string>(localStorage.getItem('name') || ""); // will be saved in localStorage
+    const [ userName, setUserName ] = useState<string>(localStorage.getItem('name') || "");
 
     useEffect(() => {
         function onConnect() {
-            // setIsConnected(true);
-            // setSocketId(socket.id);
-            // console.log("connected", socket.id);
+
         }
 
         function onDisconnect() {
-            // setIsConnected(false);
+            // sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
+            // setIsRoomOwner(false);
         }
 
         socket.on('connect', onConnect);
@@ -51,7 +48,7 @@ function App() {
           <Routes>
               <Route path="/" element={ <Home setIsRoomOwner={setIsRoomOwner} /> } />
               <Route path="/rules" element={ <Rules /> } />
-              <Route path="/room/:roomCode" element={ <Room isRoomOwner={isRoomOwner}/> } />
+              <Route path="/room/:roomCode" element={ <Room isRoomOwner={isRoomOwner} setIsRoomOwner={setIsRoomOwner} /> } />
               <Route path="/player" element={ <Player /> } />
               <Route path="/crew-member" element={ <CrewMember /> } />
               <Route path="/store-leader" element={ <StoreLeader /> } />

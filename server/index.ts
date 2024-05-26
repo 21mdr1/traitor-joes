@@ -10,6 +10,7 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
     hello: () => void;
     'join-room': (roomCode: string) => void;
+    'leave-room': (roomCode: string) => void;
 }
 
 interface InterServerEvents {
@@ -36,9 +37,14 @@ const io = new Server<
 
 // executed any time a client makes a connection
 io.on('connection', socket => {
-    console.log("conected", socket.id);
+    // console.log("conected", socket.id);
     socket.on('join-room', roomCode => {
         socket.join(roomCode);
+        // console.log('joining-room', roomCode);
+    })
+    socket.on('leave-room', roomCode => {
+        socket.leave(roomCode);
+        // console.log('leaving room', roomCode)
     })
 })
 

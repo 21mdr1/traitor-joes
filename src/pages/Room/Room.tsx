@@ -4,18 +4,30 @@ import { useEffect, useState } from 'react';
 import socket from '../../socket';
 import './Room.scss';
 
-function Room({ isRoomOwner }: {
+function Room({ isRoomOwner, setIsRoomOwner }: {
     isRoomOwner: boolean;
+    setIsRoomOwner: React.Dispatch<
+        React.SetStateAction<boolean>
+    >;
 }) {
     const navigate = useNavigate();
     const { roomCode } = useParams();
 
     let players = ['Maria', 'Ben', 'Katie', 'Christien', 'Christian', 'Julian']
 
-    // leave button should leave the room
-    // socket.leave('roomName');
-    // socket.on('disconnecting' ...) on the client side, is how the client learns about being disconnected from a room
-    // remove room owner status when leaving room
+    useEffect(() => {
+        function onDisconnect() {
+            sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
+            setIsRoomOwner(false);
+            navigate('/');
+        }
+
+        socket.on('disconnect', onDisconnect);
+
+        return () => {
+            socket.off('disconnect');
+        }
+    })
 
     function getPlayers() {
 
@@ -26,11 +38,14 @@ function Room({ isRoomOwner }: {
     }
 
     function startGame() {
-
+        navigate("/trader-joes");
     }
 
     function leaveRoom() {
-
+        sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
+        setIsRoomOwner(false);
+        socket.emit('leave-room', roomCode || '');
+        navigate('/');
     }
 
     return (
@@ -48,9 +63,9 @@ function Room({ isRoomOwner }: {
                 </ol>
             </div> 
             {isRoomOwner &&
-                <Button type="button" onClick={() => {navigate("/trader-joes")}}>Start Game</Button>
+                <Button type="button" onClick={startGame}>Start Game</Button>
             }
-            <Button type="button" onClick={() => { navigate("/") }}>Leave</Button>
+            <Button type="button" onClick={leaveRoom}>Leave</Button>
         </main>
     );
 }
