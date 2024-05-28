@@ -48,7 +48,7 @@ function App() {
           <Routes>
               <Route path="/" element={ <Home setIsRoomOwner={setIsRoomOwner} /> } />
               <Route path="/rules" element={ <Rules /> } />
-              <Route path="/room/:roomCode" element={ <Room isRoomOwner={isRoomOwner} setIsRoomOwner={setIsRoomOwner} /> } />
+              <Route path="/room/:roomCode" element={ <Room isRoomOwner={isRoomOwner} setIsRoomOwner={setIsRoomOwner} userName={userName} /> } />
               <Route path="/player" element={ <Player /> } />
               <Route path="/crew-member" element={ <CrewMember /> } />
               <Route path="/store-leader" element={ <StoreLeader /> } />

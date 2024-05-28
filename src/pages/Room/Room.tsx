@@ -1,28 +1,32 @@
 import Button from '../../components/Button/Button';
 import { useNavigate, useParams } from 'react-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import socket from '../../socket';
 import './Room.scss';
+import { updatePartiallyEmittedExpression } from 'typescript';
 
-function Room({ isRoomOwner, setIsRoomOwner }: {
+function Room({ isRoomOwner, setIsRoomOwner, userName }: {
     isRoomOwner: boolean;
     setIsRoomOwner: React.Dispatch<
         React.SetStateAction<boolean>
     >;
+    userName: string;
 }) {
     const navigate = useNavigate();
-    const { roomCode } = useParams();
+    const roomCode = useParams().roomCode || "";
 
-    let players = [
-        'Maria', 
-        'Ben', 
-        'Katie', 
-        'Christien', 
-        'Christian', 
-        'Julian'
-    ]
+    interface player {
+        name: string;
+        socketId: string;
+    }
+
+    const [ players, setPlayers ] = useState<player[]>([
+        { name: userName, socketId: socket.id || ''}
+    ])
 
     useEffect(() => {
+        getPlayers();
+
         function onDisconnect() {
             sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
             setIsRoomOwner(false);
@@ -34,10 +38,27 @@ function Room({ isRoomOwner, setIsRoomOwner }: {
         return () => {
             socket.off('disconnect');
         }
-    })
+    }, [])
 
     function getPlayers() {
 
+        function setPlayerInfo(playerInfo: player[]) {
+            setPlayers([
+                ...playerInfo,
+                ...players
+            ]);
+        }
+
+        socket.emit('get-players', roomCode, setPlayerInfo);
+
+        // setPlayers([
+        //     { name: 'Ben', socketId: 'ksadjfhasmc'},
+        //     { name: 'Katie', socketId: 'asdjflhksd'},
+        //     { name: 'Christien', socketId: 'wehrkla'},
+        //     { name: 'Christian', socketId: 'werjncisoid'},
+        //     { name: 'Julian', socketId: 'zdfahioeho'}, 
+        //     ...players
+        // ])
     }
 
     function removePlayer() {
@@ -51,7 +72,7 @@ function Room({ isRoomOwner, setIsRoomOwner }: {
     function leaveRoom() {
         sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
         setIsRoomOwner(false);
-        socket.emit('leave-room', roomCode || '');
+        socket.emit('leave-room', roomCode);
         navigate('/');
     }
 
@@ -62,8 +83,8 @@ function Room({ isRoomOwner, setIsRoomOwner }: {
                 <h1 className="players__title">Players:</h1>
                 <ol className="players__list">
                     {players.map(player => (
-                        <li key={ player } className="players__item">
-                            <div className='players__name'>{ player }</div>
+                        <li key={ player.socketId } className="players__item">
+                            <div className='players__name'>{ player.name }</div>
                             {isRoomOwner && <div className='players__x'>x</div>}
                         </li>
                     ))}
