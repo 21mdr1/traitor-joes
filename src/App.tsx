@@ -8,7 +8,7 @@ import TraderJoesForm from './pages/TraderJoesForm/TraderJoesForm';
 import Rules from './pages/Rules/Rules';
 import Name from './components/Name/Name';
 import { useEffect, useState } from 'react';
-import socket from './socket';
+import socket from './sockets/socket';
 import './App.scss';
 
 function App() {

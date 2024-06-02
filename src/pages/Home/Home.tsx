@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { generateRandomCode } from '../../utils/mathUtils';
 import Button from '../../components/Button/Button';
-import socket from '../../socket';
+import socket from '../../sockets/socket';
 import './Home.scss';
 import Input from '../../components/Input/Input';
 

@@ -1,9 +1,8 @@
 import Button from '../../components/Button/Button';
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
-import socket from '../../socket';
+import socket from '../../sockets/socket';
 import './Room.scss';
-import { updatePartiallyEmittedExpression } from 'typescript';
 
 function Room({ isRoomOwner, setIsRoomOwner, userName }: {
     isRoomOwner: boolean;
@@ -22,20 +21,26 @@ function Room({ isRoomOwner, setIsRoomOwner, userName }: {
 
     const [ players, setPlayers ] = useState<player[]>([
         { name: userName, socketId: socket.id || ''}
-    ])
+    ]);
 
     useEffect(() => {
-        getPlayers();
+        socket.on('get-player-info', (callback) => {
+            let player = { name: userName, socketId: socket.id || '' }
+            console.log('sending info', player)
+            callback(player);
+        });
 
         function onDisconnect() {
             sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
             setIsRoomOwner(false);
             navigate('/');
         }
-
         socket.on('disconnect', onDisconnect);
 
+        getPlayers();
+
         return () => {
+            socket.off('get-player-info');
             socket.off('disconnect');
         }
     }, [])
@@ -43,6 +48,7 @@ function Room({ isRoomOwner, setIsRoomOwner, userName }: {
     function getPlayers() {
 
         function setPlayerInfo(playerInfo: player[]) {
+            console.log('playerInfo', playerInfo)
             setPlayers([
                 ...playerInfo,
                 ...players
@@ -50,15 +56,6 @@ function Room({ isRoomOwner, setIsRoomOwner, userName }: {
         }
 
         socket.emit('get-players', roomCode, setPlayerInfo);
-
-        // setPlayers([
-        //     { name: 'Ben', socketId: 'ksadjfhasmc'},
-        //     { name: 'Katie', socketId: 'asdjflhksd'},
-        //     { name: 'Christien', socketId: 'wehrkla'},
-        //     { name: 'Christian', socketId: 'werjncisoid'},
-        //     { name: 'Julian', socketId: 'zdfahioeho'}, 
-        //     ...players
-        // ])
     }
 
     function removePlayer() {
