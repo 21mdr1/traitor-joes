@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Room from './pages/Room/Room';
 import Player from './pages/Player/Player';
@@ -15,9 +15,11 @@ function App() {
     const [ isRoomOwner, setIsRoomOwner ] = useState<boolean>(sessionStorage.getItem('isRoomOwner') === 'true' || false);
     const [ userName, setUserName ] = useState<string>(localStorage.getItem('name') || "");
 
+    console.log(socket.id);
+
     useEffect(() => {
         function onConnect() {
-
+            console.log(socket.id);
         }
 
         function onDisconnect() {
@@ -27,15 +29,6 @@ function App() {
 
         socket.on('connect', onConnect);
         socket.on('disconnect', onDisconnect);
-
-        // on the client side: socket.emit('send-message', message, room);
-        // on the server side: 
-        // socket.on('send-message', (message, room) => {
-        //    socket.to(room).emit('receive-message', message);
-        //}
-        // on client side: socket.on("receive-message", message => {
-        //    do thing
-        //})
 
         return () => {
             socket.off('connect', onConnect);
