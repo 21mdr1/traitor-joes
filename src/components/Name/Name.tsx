@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import SocketContext from '../socket_context/context';
+import { useState, useContext } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import './Name.scss';
 
-function Name({ setUserName }: {
-    setUserName: React.Dispatch<React.SetStateAction<string>>;
-}) {
+function Name() {
+    const { setValue } = useContext(SocketContext);
 
     const [ name, setName ] = useState("");
 
@@ -16,7 +16,7 @@ function Name({ setUserName }: {
     function handleFormSubmission(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         localStorage.setItem('name', name);
-        setUserName(name);
+        setValue(state => ({...state, userName: name}))
     }
 
     return (

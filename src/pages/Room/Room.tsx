@@ -1,77 +1,70 @@
-import Button from '../../components/Button/Button';
-import { useNavigate, useParams } from 'react-router';
-import { useEffect, useState } from 'react';
 import socket from '../../sockets/socket';
+import { useNavigate, useParams } from 'react-router';
+import SocketContext from '../../components/socket_context/context';
+import { useContext, useEffect, useCallback } from 'react';
+import Button from '../../components/Button/Button';
 import './Room.scss';
 
-function Room({ isRoomOwner, setIsRoomOwner, userName }: {
-    isRoomOwner: boolean;
-    setIsRoomOwner: React.Dispatch<
-        React.SetStateAction<boolean>
-    >;
-    userName: string;
-}) {
+function Room() {
     const navigate = useNavigate();
     const roomCode = useParams().roomCode || "";
+
+    const { value, setValue } = useContext(SocketContext);
+    const { isRoomOwner, userName, players, socketId } = value;
 
     interface player {
         name: string;
         socketId: string;
     }
 
-    const [ players, setPlayers ] = useState<player[]>([
-        { name: userName, socketId: socket.id || ''}
-    ]);
+    const getPlayers = useCallback(function () {
+
+        function setPlayerInfo(playerInfo: player[]) {
+            console.log('playerInfo', playerInfo)
+            setValue(state => ({...state, players:
+                [{name: userName, socketId: socketId}, ...playerInfo]
+            }));
+        }
+
+        socket.emit('get-players', roomCode, setPlayerInfo);
+    }, [roomCode, setValue, userName, socketId]);
+
+    const removePlayers = useCallback(function () {
+
+    }, []);
+
+    const startGame = useCallback(function() {
+        navigate("/trader-joes");
+    }, [ navigate ]);
+
+    const leaveRoom = useCallback(function () {
+        sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
+        setValue(state => ({...state, isRoomOwner: false}));
+        socket.emit('leave-room', roomCode);
+        navigate('/');
+    }, [ navigate, roomCode, setValue ])
 
     useEffect(() => {
         socket.on('get-player-info', (callback) => {
             let player = { name: userName, socketId: socket.id || '' }
-            console.log('sending info', player)
+            // console.log('sending info', player)
             callback(player);
         });
 
-        function onDisconnect() {
-            sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
-            setIsRoomOwner(false);
-            navigate('/');
-        }
-        socket.on('disconnect', onDisconnect);
+        // function onDisconnect() {
+        //     sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
+        //     setValue(state => ({...state, isRoomOwner: false}));
+        //     navigate('/');
+        // }
+        // socket.on('disconnect', onDisconnect);
 
         getPlayers();
 
         return () => {
             socket.off('get-player-info');
-            socket.off('disconnect');
+            // socket.off('disconnect');
         }
-    }, [])
-
-    function getPlayers() {
-
-        function setPlayerInfo(playerInfo: player[]) {
-            console.log('playerInfo', playerInfo)
-            setPlayers([
-                ...playerInfo,
-                ...players
-            ]);
-        }
-
-        socket.emit('get-players', roomCode, setPlayerInfo);
-    }
-
-    function removePlayer() {
-
-    }
-
-    function startGame() {
-        navigate("/trader-joes");
-    }
-
-    function leaveRoom() {
-        sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
-        setIsRoomOwner(false);
-        socket.emit('leave-room', roomCode);
-        navigate('/');
-    }
+    }, [ userName, getPlayers ])
 
     return (
         <main className="main main--room">
@@ -82,7 +75,7 @@ function Room({ isRoomOwner, setIsRoomOwner, userName }: {
                     {players.map(player => (
                         <li key={ player.socketId } className="players__item">
                             <div className='players__name'>{ player.name }</div>
-                            {isRoomOwner && <div className='players__x'>x</div>}
+                            {isRoomOwner && <div className='players__x' onClick={removePlayers}>x</div>}
                         </li>
                     ))}
                 </ol>

@@ -1,23 +1,21 @@
-import { useState, useEffect } from 'react';
+import socket from '../../sockets/socket';
+import SocketContext from '../../components/socket_context/context';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { generateRandomCode } from '../../utils/mathUtils';
 import Button from '../../components/Button/Button';
-import socket from '../../sockets/socket';
-import './Home.scss';
 import Input from '../../components/Input/Input';
+import './Home.scss';
 
-function Home({ setIsRoomOwner }: {
-    setIsRoomOwner: React.Dispatch<
-        React.SetStateAction<boolean>
-    >;
-}) {
+function Home() {
     const navigate = useNavigate();
 
     const [ joiningGame, setJoiningGame ] = useState(false);
-    const [ roomCode, setRoomCode ] = useState("");
+    const { value, setValue } = useContext(SocketContext);
+    const { roomCode } = value;
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setRoomCode(event.target.value);
+        setValue(state => ({...state, roomCode: event.target.value}));
     }
     
     function handleFormSubmition(event: React.FormEvent<HTMLFormElement>) {
@@ -30,7 +28,7 @@ function Home({ setIsRoomOwner }: {
         socket.connect();
         socket.emit('join-room', roomCode);
         sessionStorage.setItem('isRoomOwner', JSON.stringify(isRoomOwner));
-        setIsRoomOwner(isRoomOwner);
+        setValue(state => ({...state, isRoomOwner}))
         navigate(`/room/${roomCode}`);
     }
 

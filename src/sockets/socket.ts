@@ -27,8 +27,8 @@ const URL = process.env.REACT_APP_WEBSOCKET_URL || 'http://localhost:8080';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(URL, { autoConnect: false });
 
-function initSockets({ setValue }: any) {
-    socketEvents({ setValue });
+function initSockets({ value, setValue }: any) {
+    socketEvents({ value, setValue });
     getQueueLength();
 }
 
