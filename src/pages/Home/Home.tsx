@@ -49,6 +49,7 @@ function Home() {
                             onChange={ handleInputChange }
                         />
                         <Button disabled={roomCode.length !== 5}>Join Room</Button>
+                        <Button type='button' level='secondary' onClick={() => {setJoiningGame(false)}}>Go back</Button>
                     </form>
                 </div>
             )}

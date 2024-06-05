@@ -15,6 +15,18 @@
     }
 
     &[disabled] {
-        background-color: darkgray;
+        background-color: gray;
+        cursor: auto;
+    }
+
+    &--secondary {
+        background-color: transparent;
+        color: $blue;
+        
+        &:hover {
+            background-color: transparent;
+            border: 2px solid $blue;
+            padding: 0.875rem;
+        }
     }
 }
