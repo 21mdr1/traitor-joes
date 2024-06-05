@@ -13,7 +13,7 @@ function Home() {
     const [ joiningGame, setJoiningGame ] = useState(false);
     const [ workingCode, setWorkingCode ] = useState('');
     const { value, setValue } = useContext(SocketContext);
-    const { userName } = value;
+    const { userName, socketId } = value;
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setWorkingCode(event.target.value.toUpperCase());
@@ -25,10 +25,9 @@ function Home() {
     }
 
     function joinGame(roomCode: string, isRoomOwner: boolean) {
-        socket.connect();
-        socket.emit('join-room', roomCode, {name: userName, socketId: socket.id || ''});
+        socket.emit('join-room', roomCode, {name: userName, socketId});
         sessionStorage.setItem('isRoomOwner', JSON.stringify(isRoomOwner));
-        setValue(state => ({...state, isRoomOwner, roomCode, socketId: socket.id || ''}))
+        setValue(state => ({...state, isRoomOwner, roomCode}))
         navigate(`/room/${roomCode}`);
     }
 

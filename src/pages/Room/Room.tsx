@@ -62,7 +62,7 @@ function Room() {
                 ...state,
                 players: state.players.filter((player => player.socketId !== userSocketId))
             }));
-        } )
+        });
 
         getPlayers();
 

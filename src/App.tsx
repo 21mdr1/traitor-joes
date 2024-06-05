@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SocketContext from './components/socket_context/context';
-import { useContext } from 'react';
+import socket from './sockets/socket';
+import { useEffect, useContext } from 'react';
 import Home from './pages/Home/Home';
 import Room from './pages/Room/Room';
 import Player from './pages/Player/Player';
@@ -12,8 +13,13 @@ import Name from './components/Name/Name';
 import './App.scss';
 
 function App() {
-    const { value } = useContext(SocketContext);
-    const userName = value;
+    const { value, setValue } = useContext(SocketContext);
+    const { userName } = value;
+
+    useEffect(() => {
+        socket.connect();
+        setValue(state => ({...state, socketId: socket.id || ''}));
+    }, []);
 
     return (
       <BrowserRouter>
