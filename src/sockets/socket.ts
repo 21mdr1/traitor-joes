@@ -30,7 +30,6 @@ function initSockets({ value, setValue }: {
     setValue: React.Dispatch<React.SetStateAction<ISocketContextValue>>;
 }) {
     socketEvents({ value, setValue });
-    setValue(state => ({ ...state, userName: localStorage.getItem('name') || ''}));
     getQueueLength();
 }
 

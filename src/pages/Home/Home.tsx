@@ -11,24 +11,24 @@ function Home() {
     const navigate = useNavigate();
 
     const [ joiningGame, setJoiningGame ] = useState(false);
+    const [ workingCode, setWorkingCode ] = useState('');
     const { value, setValue } = useContext(SocketContext);
     const { roomCode } = value;
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setValue(state => ({...state, roomCode: event.target.value}));
+        setWorkingCode(event.target.value.toUpperCase());
     }
     
     function handleFormSubmition(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        joinGame(roomCode, false);
+        joinGame(workingCode, false);
     }
 
     function joinGame(roomCode: string, isRoomOwner: boolean) {
-        roomCode = roomCode.toUpperCase();
         socket.connect();
         socket.emit('join-room', roomCode);
         sessionStorage.setItem('isRoomOwner', JSON.stringify(isRoomOwner));
-        setValue(state => ({...state, isRoomOwner}))
+        setValue(state => ({...state, isRoomOwner, roomCode}))
         navigate(`/room/${roomCode}`);
     }
 
@@ -45,10 +45,10 @@ function Home() {
                             name='room'
                             id='room'
                             placeholder='Enter Room Code'
-                            value={ roomCode }
+                            value={ workingCode }
                             onChange={ handleInputChange }
                         />
-                        <Button disabled={roomCode.length !== 5}>Join Room</Button>
+                        <Button disabled={workingCode.length !== 5}>Join Room</Button>
                         <Button type='button' level='secondary' onClick={() => {setJoiningGame(false)}}>Go back</Button>
                     </form>
                 </div>

@@ -6,7 +6,7 @@ const value: ISocketContextValue = {
     queueLength: 0,
     positionInLine: 0,
     isRoomOwner: false,
-    userName: '',
+    userName: localStorage.getItem('name') || '',
     socketId: '',
     roomCode: '',
     players: [],
