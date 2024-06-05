@@ -12,8 +12,8 @@ function removeUserFromQueue() {
     socket.emit('removeUserFromQueue');
 }
 
-function joinRoom(roomCode: string) {
-    socket.emit('join-room', roomCode);
+function joinRoom(roomCode: string, user: {name: string, socketId: string}) {
+    socket.emit('join-room', roomCode, user);
 }
 
 export { addClientToQueue, getQueueLength, removeUserFromQueue, joinRoom }

@@ -7,12 +7,14 @@ interface ServerToClientEvents {
     'get-player-info': (callback: (player: {name: string, socketId: string}) => void) => void;
     'queueLength': ({ queueLength }: any) => void;
     'positionInLine': ({ positionInLine  }: any) => void;
-    'remove-user': (roomCode: string) => void;
+    'ask-to-leave': (roomCode: string) => void;
+    'user-was-added': (user: {name: string; socketId: string}) => void;
+    'user-was-removed': (socketId: string) => void;
 }
 
 interface ClientToServerEvents {
-    'join-room': (roomCode: string) => void;
-    'leave-room': (roomCode: string) => void;
+    'join-room': (roomCode: string, user: {name: string; socketId: string}) => void;
+    'leave-room': (roomCode: string, socketId: string) => void;
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, callBack: (playerInfo: {name: string, socketId: string}[]) => void) => void;
     'start-game': (roomCode: string) => void;

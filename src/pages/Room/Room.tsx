@@ -33,31 +33,43 @@ function Room() {
     }, [ navigate ]);
 
     const leaveRoom = useCallback(function (roomCode: string) {
+        socket.emit('leave-room', roomCode, socketId);
         sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
-        setValue(state => ({...state, isRoomOwner: false}));
-        socket.emit('leave-room', roomCode);
+        setValue(state => ({
+            ...state, 
+            isRoomOwner: false, 
+            roomCode: '', 
+            players: []
+        }));
         navigate('/');
     }, [ navigate, setValue ])
 
     useEffect(() => {
-        socket.on('get-player-info', (sendInfo) => {
-            sendInfo({ name: userName, socketId: socket.id || '' });
-        });
-        socket.on('remove-user', (roomCode) => {
+        socket.on('ask-to-leave', (roomCode) => {
             leaveRoom(roomCode);
-        })
+        });
+        // socket.on('disconnect', () => leaveRoom(roomCode));
 
-        // function onDisconnect() {
-        //     sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
-        //     setValue(state => ({...state, isRoomOwner: false}));
-        //     navigate('/');
-        // }
-        // socket.on('disconnect', onDisconnect);
+        socket.on('user-was-added', (user) => {
+            setValue(state => ({
+                ...state,
+                players: [...state.players, user]
+            }));
+        });
+
+        socket.on('user-was-removed', (userSocketId) => {
+            setValue(state => ({
+                ...state,
+                players: state.players.filter((player => player.socketId !== userSocketId))
+            }));
+        } )
 
         getPlayers();
 
         return () => {
-            socket.off('get-player-info');
+            socket.off('ask-to-leave');
+            socket.off('user-was-added');
+            socket.off('user-was-removed');
             // socket.off('disconnect');
         }
     }, [ userName, getPlayers ])
