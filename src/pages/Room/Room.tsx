@@ -16,7 +16,6 @@ function Room() {
     const getPlayers = useCallback(function () {
 
         function setPlayerInfo(playerInfo: player[]) {
-            console.log('playerInfo', playerInfo)
             setValue(state => ({...state, players:
                 [{name: userName, socketId: socketId}, ...playerInfo]
             }));
@@ -43,7 +42,6 @@ function Room() {
     useEffect(() => {
         socket.on('get-player-info', (callback) => {
             let player = { name: userName, socketId: socket.id || '' }
-            // console.log('sending info', player)
             callback(player);
         });
 

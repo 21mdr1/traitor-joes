@@ -12,8 +12,7 @@ function Home() {
 
     const [ joiningGame, setJoiningGame ] = useState(false);
     const [ workingCode, setWorkingCode ] = useState('');
-    const { value, setValue } = useContext(SocketContext);
-    const { roomCode } = value;
+    const { setValue } = useContext(SocketContext);
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setWorkingCode(event.target.value.toUpperCase());

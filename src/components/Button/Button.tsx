@@ -1,6 +1,5 @@
 import { MouseEventHandler, ReactNode } from 'react';
 import './Button.scss';
-import { eventNames } from 'process';
 
 function Button({ type, children, onClick, disabled, level }: {
     type?: 'submit' | 'reset' | 'button';
