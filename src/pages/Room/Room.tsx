@@ -79,7 +79,7 @@ function Room() {
             {isRoomOwner &&
                 <Button type="button" onClick={startGame}>Start Game</Button>
             }
-            <Button type="button" onClick={leaveRoom}>Leave</Button>
+            <Button type="button" level='secondary' onClick={leaveRoom}>Leave</Button>
         </main>
     );
 }
