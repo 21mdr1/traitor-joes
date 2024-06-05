@@ -29,6 +29,7 @@ function Room() {
     }, []);
 
     const startGame = useCallback(function() {
+        socket.emit('start-game', roomCode);
         navigate("/trader-joes");
     }, [ navigate ]);
 
@@ -64,6 +65,10 @@ function Room() {
             }));
         });
 
+        socket.on('navigate-to', (page) => {
+            navigate(page);
+        })
+
         getPlayers();
 
         return () => {
@@ -72,7 +77,7 @@ function Room() {
             socket.off('user-was-removed');
             // socket.off('disconnect');
         }
-    }, [ userName, getPlayers ])
+    }, [ userName, getPlayers, navigate ]);
 
     return (
         <main className="main main--room">

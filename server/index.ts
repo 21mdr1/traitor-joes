@@ -24,5 +24,9 @@ io.on('connection', socket => {
     socket.on('remove-user', (socketId, roomCode) => {
         socket.to(socketId).emit('ask-to-leave', roomCode);
     });
+
+    socket.on('start-game', (roomCode) => {
+        socket.to(roomCode).emit('navigate-to', '/trader-joes');
+    })
 })
 

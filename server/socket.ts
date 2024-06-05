@@ -5,6 +5,7 @@ interface ServerToClientEvents {
     'ask-to-leave': (roomCode: string) => void;
     'user-was-added': (user: {name: string; socketId: string}) => void;
     'user-was-removed': (socketId: string) => void;
+    'navigate-to': (page: string) => void;
 }
 
 interface ClientToServerEvents {
