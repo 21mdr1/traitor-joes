@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import SocketContext from '../../components/socket_context/context';
 import { useContext, useEffect, useCallback } from 'react';
 import Button from '../../components/Button/Button';
+import { player } from '../../utils/types';
 import './Room.scss';
 
 function Room() {
@@ -11,11 +12,6 @@ function Room() {
 
     const { value, setValue } = useContext(SocketContext);
     const { isRoomOwner, userName, players, socketId } = value;
-
-    interface player {
-        name: string;
-        socketId: string;
-    }
 
     const getPlayers = useCallback(function () {
 

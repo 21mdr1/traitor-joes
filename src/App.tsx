@@ -14,9 +14,6 @@ import './App.scss';
 function App() {
     const { value } = useContext(SocketContext);
     const userName = value;
-    // const { isRoomOwner, userName, socketId } = useContext(SocketContext);
-
-    // console.log(isRoomOwner, userName, socketId);
 
     return (
       <BrowserRouter>

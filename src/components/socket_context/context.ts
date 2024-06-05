@@ -1,26 +1,12 @@
 import React from "react";
 import { createContext } from "react";
-
-interface player {
-    name: string;
-    socketId: string;
-}
-
-interface ISocketContextValue {
-    queueLength: number;
-    positionInLine: number;
-    isRoomOwner: boolean;
-    userName: string;
-    socketId: string;
-    roomCode: string;
-    players: player[];
-}
+import { ISocketContextValue } from '../../utils/types';
 
 const value: ISocketContextValue = {
     queueLength: 0,
     positionInLine: 0,
     isRoomOwner: false,
-    userName: localStorage.getItem('name') || '',
+    userName: '',
     socketId: '',
     roomCode: '',
     players: [],

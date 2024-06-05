@@ -1,16 +1,22 @@
 import socket from './socket';
+import { ISocketContextValue } from '../utils/types';
 
-function socketEvents({ value, setValue }) {
+function socketEvents({ value, setValue }: {
+    value: ISocketContextValue;
+    setValue: React.Dispatch<React.SetStateAction<ISocketContextValue>>;
+}) {
     socket.on('connect', () => {
-        setValue(state => ({...state, socketId: socket.id}))
+        setValue(state => ({...state, socketId: socket.id || ''}))
     });
 
     socket.on('disconnect', () => {
-        setValue(state => ({...state, 
+        setValue(state => ({
+            ...state, 
             isRoomOwner: false, 
             socketId: '', 
             roomCode: '', 
-            players: []}));
+            players: []
+        }));
         sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
     });
 
