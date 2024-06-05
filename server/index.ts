@@ -27,6 +27,15 @@ io.on('connection', socket => {
 
     socket.on('start-game', (roomCode) => {
         socket.to(roomCode).emit('navigate-to', '/trader-joes');
+        socket.timeout(5000).to(roomCode).emit('get-date', (err: Error, date: string[]) => {
+            //person who starts the game has to get this too
+            if (err) {
+                console.log(err);
+            } else {
+                // calculate who is the person to start the game
+                // then emit the answer
+            }
+        });
     })
 })
 

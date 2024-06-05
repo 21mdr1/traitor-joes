@@ -28,7 +28,7 @@ function TraderJoesForm() {
                 <Input 
                     id='date'
                     name='date' 
-                    type='text'
+                    type='date'
                     onChange={inputChangeHandler}
                     value={date}
                 />

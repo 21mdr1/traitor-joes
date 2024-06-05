@@ -75,6 +75,7 @@ function Room() {
             socket.off('ask-to-leave');
             socket.off('user-was-added');
             socket.off('user-was-removed');
+            socket.off('navigate-to');
             // socket.off('disconnect');
         }
     }, [ userName, getPlayers, navigate ]);
