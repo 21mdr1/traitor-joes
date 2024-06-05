@@ -1,4 +1,5 @@
 import socket from './socket';
+import { player } from '../utils/types';
 
 function addClientToQueue() {
     socket.emit('addClientToQueue');
@@ -12,7 +13,7 @@ function removeUserFromQueue() {
     socket.emit('removeUserFromQueue');
 }
 
-function joinRoom(roomCode: string, user: {name: string, socketId: string}) {
+function joinRoom(roomCode: string, user: player) {
     socket.emit('join-room', roomCode, user);
 }
 
