@@ -2,6 +2,7 @@ import { Server } from 'socket.io';
 
 interface ServerToClientEvents {
     'get-player-info': (callback: (player: {name: string; socketId: string}) => void) => void;
+    'remove-user': (roomCode: string) => void;
 }
 
 interface ClientToServerEvents {

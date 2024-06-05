@@ -24,7 +24,7 @@ io.on('connection', socket => {
     });
 
     socket.on('remove-user', (socketId, roomCode) => {
-        // user.leave(roomCode)
+        socket.to(socketId).emit('remove-user', roomCode);
     });
 })
 

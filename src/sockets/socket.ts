@@ -6,7 +6,8 @@ import { ISocketContextValue } from '../utils/types';
 interface ServerToClientEvents {
     'get-player-info': (callback: (player: {name: string, socketId: string}) => void) => void;
     'queueLength': ({ queueLength }: any) => void;
-    'positionInLine': ({ positionInLine  }: any) => void ;
+    'positionInLine': ({ positionInLine  }: any) => void;
+    'remove-user': (roomCode: string) => void;
 }
 
 interface ClientToServerEvents {
