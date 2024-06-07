@@ -13,4 +13,11 @@ interface ISocketContextValue {
     players: player[];
 }
 
-export type { player, ISocketContextValue};
+type socketContextSetter = React.Dispatch<React.SetStateAction<ISocketContextValue>>;
+
+interface IContext {
+    value: ISocketContextValue;
+    setValue: socketContextSetter;
+}
+
+export type { player, ISocketContextValue, socketContextSetter, IContext };

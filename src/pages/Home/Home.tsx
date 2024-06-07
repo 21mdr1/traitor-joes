@@ -1,19 +1,15 @@
-import socket from '../../sockets/socket';
 import SocketContext from '../../components/socket_context/context';
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
 import { generateRandomCode } from '../../utils/mathUtils';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
+import { joinRoom } from '../../sockets/emit';
 import './Home.scss';
 
 function Home() {
-    const navigate = useNavigate();
-
     const [ joiningGame, setJoiningGame ] = useState(false);
     const [ workingCode, setWorkingCode ] = useState('');
     const { value, setValue } = useContext(SocketContext);
-    const { userName, socketId } = value;
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setWorkingCode(event.target.value.toUpperCase());
@@ -21,19 +17,12 @@ function Home() {
     
     function handleFormSubmition(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        joinGame(workingCode, false);
-    }
-
-    function joinGame(roomCode: string, isRoomOwner: boolean) {
-        socket.emit('join-room', roomCode, {name: userName, socketId});
-        sessionStorage.setItem('isRoomOwner', JSON.stringify(isRoomOwner));
-        setValue(state => ({...state, isRoomOwner, roomCode}))
-        navigate(`/room/${roomCode}`);
+        joinRoom({value, setValue}, workingCode, false)
     }
 
     return (  
         <main className="main main--home">
-            <Button type="button" onClick={() => {joinGame(generateRandomCode(5), true)}}>New Game</Button>
+            <Button type="button" onClick={() => {joinRoom({value, setValue}, generateRandomCode(5), true)}}>New Game</Button>
             <Button type="button" onClick={() => setJoiningGame(true)}>Join Game</Button>
             {joiningGame && (
                 <div className='room-form__container'>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import SocketContext from './context';
+import { socketCleanUp } from '../../sockets/events';
 import { initSockets } from '../../sockets/socket';
 
 function SocketProvider(props) {
@@ -13,8 +14,10 @@ function SocketProvider(props) {
         players: [],
     });
 
-    useEffect(() => 
-        initSockets({ value, setValue }), 
+    useEffect(() => {
+        initSockets({ value, setValue });
+        return socketCleanUp;
+    }, 
     [ value, setValue ]);
 
     return(

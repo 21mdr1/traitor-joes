@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import SocketContext from './components/socket_context/context';
 import socket from './sockets/socket';
 import { useEffect, useContext } from 'react';
@@ -12,9 +12,12 @@ import Rules from './pages/Rules/Rules';
 import Name from './components/Name/Name';
 import './App.scss';
 
+let navigate: any = null;
+
 function App() {
     const { value, setValue } = useContext(SocketContext);
     const { userName } = value;
+    navigate = useNavigate();
 
     useEffect(() => {
         socket.connect();
@@ -22,7 +25,7 @@ function App() {
     }, []);
 
     return (
-      <BrowserRouter>
+        <>
           <Routes>
               <Route path="/" element={ <Home /> } />
               <Route path="/rules" element={ <Rules /> } />
@@ -33,8 +36,9 @@ function App() {
               <Route path="/trader-joes" element={ <TraderJoesForm /> } />
           </Routes>
           {!userName && (<Name />)}
-      </BrowserRouter>
+        </>
     );
 }
 
 export default App;
+export { navigate };
