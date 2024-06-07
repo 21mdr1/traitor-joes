@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import SocketContext from './context';
 import { socketCleanUp } from '../../sockets/events';
 import { initSockets } from '../../sockets/socket';
+import { ISocketContextValue } from '../../utils/types';
 
-function SocketProvider({ children }) {
-    const [ value, setValue ] = useState({
+function SocketProvider({ children }: {
+    children: ReactNode;
+}) {
+    const [ value, setValue ] = useState<ISocketContextValue>({
         queueLength: 0,
         positionInLine: 0,
         isRoomOwner: false,
