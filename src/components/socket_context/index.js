@@ -3,7 +3,7 @@ import SocketContext from './context';
 import { socketCleanUp } from '../../sockets/events';
 import { initSockets } from '../../sockets/socket';
 
-function SocketProvider(props) {
+function SocketProvider({ children }) {
     const [ value, setValue ] = useState({
         queueLength: 0,
         positionInLine: 0,
@@ -20,11 +20,11 @@ function SocketProvider(props) {
     }, 
     [ value, setValue ]);
 
-    return(
+    return (
         <SocketContext.Provider value={{ value, setValue }}>
-            { props.children }
+            { children }
         </SocketContext.Provider>
-    )
+    );
 };
 
 export default SocketProvider;

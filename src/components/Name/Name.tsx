@@ -1,11 +1,11 @@
-import SocketContext from '../socket_context/context';
+import { useSocketContext } from '../socket_context/context';
 import { useState, useContext } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import './Name.scss';
 
 function Name() {
-    const { setValue } = useContext(SocketContext);
+    const { setValue } = useSocketContext();
 
     const [ name, setName ] = useState("");
 

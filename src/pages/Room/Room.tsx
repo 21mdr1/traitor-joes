@@ -1,11 +1,11 @@
-import SocketContext from '../../components/socket_context/context';
+import { useSocketContext } from '../../components/socket_context/context';
 import { useContext, useEffect } from 'react';
 import Button from '../../components/Button/Button';
 import { getPlayers, leaveRoom, removePlayer, startGame } from '../../sockets/emit';
 import './Room.scss';
 
 function Room() {
-    const { value, setValue } = useContext(SocketContext);
+    const { value, setValue } = useSocketContext();
     const { isRoomOwner, players, roomCode } = value;
 
     useEffect(() => {

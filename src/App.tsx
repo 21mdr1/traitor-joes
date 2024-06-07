@@ -1,5 +1,5 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import SocketContext from './components/socket_context/context';
+import { useSocketContext } from './components/socket_context/context';
 import socket from './sockets/socket';
 import { useEffect, useContext } from 'react';
 import Home from './pages/Home/Home';
@@ -15,7 +15,7 @@ import './App.scss';
 let navigate: any = null;
 
 function App() {
-    const { value, setValue } = useContext(SocketContext);
+    const { value, setValue } = useSocketContext();
     const { userName } = value;
     navigate = useNavigate();
 

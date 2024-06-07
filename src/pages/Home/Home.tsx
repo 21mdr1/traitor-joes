@@ -1,4 +1,4 @@
-import SocketContext from '../../components/socket_context/context';
+import { useSocketContext } from '../../components/socket_context/context';
 import { useState, useContext } from 'react';
 import { generateRandomCode } from '../../utils/mathUtils';
 import Button from '../../components/Button/Button';
@@ -9,7 +9,7 @@ import './Home.scss';
 function Home() {
     const [ joiningGame, setJoiningGame ] = useState(false);
     const [ workingCode, setWorkingCode ] = useState('');
-    const { value, setValue } = useContext(SocketContext);
+    const { value, setValue } = useSocketContext();
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setWorkingCode(event.target.value.toUpperCase());

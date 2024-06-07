@@ -1,19 +1,22 @@
-import React from "react";
-import { createContext } from "react";
-import { ISocketContextValue } from '../../utils/types';
+import { createContext, useContext } from "react";
+import { IContext } from '../../utils/types';
 
-const value: ISocketContextValue = {
-    queueLength: 0,
-    positionInLine: 0,
-    isRoomOwner: false,
-    userName: localStorage.getItem('name') || '',
-    socketId: '',
-    roomCode: '',
-    players: [],
+const SocketContext = createContext<IContext>({ 
+    value: {
+        queueLength: 0,
+        positionInLine: 0,
+        isRoomOwner: false,
+        userName: localStorage.getItem('name') || '',
+        socketId: '',
+        roomCode: '',
+        players: [],
+    }, 
+    setValue: () => {} 
+});
+
+function useSocketContext() {
+    return useContext(SocketContext);
 }
 
-const setValue: React.Dispatch<React.SetStateAction<ISocketContextValue>> = () => {}
-
-const SocketContext = createContext({ value, setValue });
-
 export default SocketContext;
+export { useSocketContext };
