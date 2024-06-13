@@ -4,18 +4,19 @@ import { getQueueLength } from './emit';
 import { player, ISocketContextValue } from '../utils/types';
 
 interface ServerToClientEvents {
-    'get-player-info': (sendPlayerInfo: (player: player) => void) => void;
     'queueLength': ({ queueLength }: any) => void;
     'positionInLine': ({ positionInLine  }: any) => void;
     'ask-to-leave': (roomCode: string) => void;
     'user-was-added': (user: player) => void;
     'user-was-removed': (socketId: string) => void;
     'navigate-to': (page: string) => void;
+    'get-date': (sendDate: (date: string) => void) => void;
 }
 
 interface ClientToServerEvents {
-    'join-room': (roomCode: string, user: player) => void;
-    'leave-room': (roomCode: string, socketId: string) => void;
+    'send-name': (name: string) => void;
+    'join-room': (roomCode: string) => void;
+    'leave-room': (roomCode: string) => void;
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: player[]) => void) => void;
     'start-game': (roomCode: string) => void;

@@ -5,6 +5,11 @@ import { navigate } from '../App';
 
 function socketEvents({ value, setValue }: IContext) {
     socket.on('connect', () => {
+        // if (socket.recovered) {
+        //     // any event missed during the disconnection period will be received now
+        // } else {
+        //     // new or unrecoverable session
+        // }
         setValue(state => ({...state, socketId: socket.id || ''}))
     });
 
@@ -18,10 +23,6 @@ function socketEvents({ value, setValue }: IContext) {
 
     socket.on('positionInLine', ({ positionInLine }) => {
         setValue(state => ({...state, positionInLine}));
-    });
-
-    socket.on('get-player-info', ( sendPlayerInfo ) => {
-        sendPlayerInfo({ name: value.userName, socketId: value.socketId });
     });
 
     socket.on('user-was-added', (user) => {
@@ -45,6 +46,11 @@ function socketEvents({ value, setValue }: IContext) {
     socket.on('navigate-to', (page) => {
         navigate(page);
     });
+
+    socket.on('get-date', (sendDate) => {
+        let date = '1/1/2024'
+        sendDate(date);
+    });
 }
 
 function socketCleanUp() {
@@ -52,11 +58,11 @@ function socketCleanUp() {
     socket.off('disconnect');
     socket.off('queueLength');
     socket.off('positionInLine');
-    socket.off('get-player-info');
     socket.off('user-was-added');
     socket.off('user-was-removed');
     socket.off('ask-to-leave');
     socket.off('navigate-to');
+    // socket.off('get-date');
 }
 
 export { socketEvents, socketCleanUp };

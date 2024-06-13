@@ -1,5 +1,5 @@
 import { useSocketContext } from '../../components/socket_context/context';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import Button from '../../components/Button/Button';
 import { getPlayers, leaveRoom, removePlayer, startGame } from '../../sockets/emit';
 import './Room.scss';
@@ -9,8 +9,8 @@ function Room() {
     const { isRoomOwner, players, roomCode } = value;
 
     useEffect(() => {
-        getPlayers({ value, setValue});
-    }, []);
+        getPlayers(roomCode, setValue);
+    }, [ roomCode, setValue ]);
 
     return (
         <main className="main main--room">

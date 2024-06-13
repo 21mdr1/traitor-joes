@@ -1,5 +1,5 @@
 import socket from './socket';
-import { player, IContext, ISocketContextValue } from '../utils/types';
+import { player, IContext, ISocketContextValue,socketContextSetter } from '../utils/types';
 import { navigate } from '../App';
 
 function addClientToQueue() {
@@ -14,18 +14,19 @@ function removeUserFromQueue() {
     socket.emit('removeUserFromQueue');
 }
 
+function sendName(name: string) {
+    socket.emit('send-name', name);
+}
+
 function joinRoom({ value, setValue }: IContext, roomCode: string, isRoomOwner: boolean) {
-    const { userName, socketId } = value;
-    socket.emit('join-room', roomCode, {name: userName, socketId});
-    sessionStorage.setItem('isRoomOwner', JSON.stringify(isRoomOwner));
+    socket.emit('join-room', roomCode);
     setValue(state => ({...state, isRoomOwner, roomCode}))
     navigate(`/room/${roomCode}`);
 }
 
 function leaveRoom({ value, setValue }: IContext) {
-    const { roomCode, socketId } = value;
-    socket.emit('leave-room', roomCode, socketId);
-    sessionStorage.setItem('isRoomOwner', JSON.stringify(false));
+    const { roomCode } = value;
+    socket.emit('leave-room', roomCode);
     setValue(state => ({
         ...state, 
         isRoomOwner: false, 
@@ -40,11 +41,11 @@ function removePlayer(playerSocketId: string, value: ISocketContextValue) {
     socket.emit('remove-user', playerSocketId, roomCode);
 }
 
-function getPlayers({ value, setValue }: IContext) {
-    const { roomCode, userName, socketId } = value;
+function getPlayers(roomCode: string, setValue: socketContextSetter) {
     socket.emit('get-players', roomCode, (playerInfo: player[]) => {
+        console.log(playerInfo)
         setValue(state => ({...state, players:
-            [{name: userName, socketId: socketId}, ...playerInfo]
+            [...playerInfo]
         }));
     });
 }
@@ -52,7 +53,6 @@ function getPlayers({ value, setValue }: IContext) {
 function startGame({ value, setValue }: IContext) {
     const { roomCode } = value;
     socket.emit('start-game', roomCode);
-    navigate("/trader-joes");
 }
 
-export { addClientToQueue, getQueueLength, removeUserFromQueue, joinRoom, leaveRoom, getPlayers, removePlayer, startGame };
+export { addClientToQueue, getQueueLength, removeUserFromQueue, sendName, joinRoom, leaveRoom, getPlayers, removePlayer, startGame };

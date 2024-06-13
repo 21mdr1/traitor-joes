@@ -1,6 +1,7 @@
+import socket from '../../sockets/socket';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './TraderJoesForm.scss';
 
 function TraderJoesForm() {
@@ -9,7 +10,6 @@ function TraderJoesForm() {
 
     function formSubmitionHandler(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log(date);
     }
 
     function inputChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {

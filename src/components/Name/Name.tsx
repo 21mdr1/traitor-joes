@@ -1,5 +1,6 @@
 import { useSocketContext } from '../socket_context/context';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import { sendName } from '../../sockets/emit';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import './Name.scss';
@@ -17,6 +18,7 @@ function Name() {
         event.preventDefault();
         localStorage.setItem('name', name);
         setValue(state => ({...state, userName: name}))
+        sendName(name);
     }
 
     return (

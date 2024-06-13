@@ -1,7 +1,6 @@
 import { Server } from 'socket.io';
 
 interface ServerToClientEvents {
-    'get-player-info': (sendPlayerInfo: (player: {name: string; socketId: string}) => void) => void;
     'ask-to-leave': (roomCode: string) => void;
     'user-was-added': (user: {name: string; socketId: string}) => void;
     'user-was-removed': (socketId: string) => void;
@@ -10,8 +9,9 @@ interface ServerToClientEvents {
 }
 
 interface ClientToServerEvents {
-    'join-room': (roomCode: string, user: {name: string; socketId: string}) => void;
-    'leave-room': (roomCode: string, socketId: string) => void;
+    'send-name': (name: string) => void;
+    'join-room': (roomCode: string) => void;
+    'leave-room': (roomCode: string) => void;
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: {name: string, socketId: string}[]) => void) => void;
     'start-game': (roomCode: string) => void;
@@ -23,7 +23,8 @@ interface InterServerEvents {
 
 interface SocketData {
     name: string;
-    age: number;
+    'last-visit': string;
+    role: string;
 }
 
 const io = new Server<
@@ -34,6 +35,10 @@ const io = new Server<
 >(8080, {
     cors: {
         origin: ['http://localhost:3000'],
+    },
+    connectionStateRecovery: {
+        maxDisconnectionDuration: 2 * 60 * 1000,
+        skipMiddlewares: true,
     }
 });
 
