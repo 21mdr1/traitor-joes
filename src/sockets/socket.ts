@@ -20,6 +20,7 @@ interface ClientToServerEvents {
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: player[]) => void) => void;
     'start-game': (roomCode: string) => void;
+    'send-last-visit': (lastVisitDate: string) => void;
     'addClientToQueue': () => void;
     'getQueueLength': () => void;
     'removeUserFromQueue': () => void;

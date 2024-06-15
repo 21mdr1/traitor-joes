@@ -1,4 +1,5 @@
 import io from "./socket";
+import { sortByDates } from "./utils/sort_utils";
 
 io.on('connection', socket => {
     // if (socket.recovered) {
@@ -38,20 +39,29 @@ io.on('connection', socket => {
         socket.to(socketId).emit('ask-to-leave', roomCode);
     });
 
-    socket.on('start-game', (roomCode) => {
-        io.sockets.in(roomCode).emit('navigate-to', '/trader-joes');
+    socket.on('send-last-visit', lastVisitDate => {
+      socket.data['last-visit'] = lastVisitDate;
+    });
 
-        io.sockets.timeout(20000).in(roomCode).emit('get-date', (err: Error, dates: string[]) => {
-            console.log('waiting...');
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(dates);
-                // calculate who is the person to start the game
-                // then emit the answer
+    socket.on('start-game', (roomCode) => {
+        io.in(roomCode).emit('navigate-to', '/trader-joes');
+        
+        setTimeout(async () => {
+          let playerSockets = await io.in(roomCode).fetchSockets();
+
+          let dates = playerSockets.map((playerSocket) => {
+            return {
+              name: playerSocket.data.name,
+              socketId: playerSocket.id,
+              date: playerSocket.data['last-visit'].split('-'),
             }
-        });
-    })
+          });
+          
+          dates.sort(sortByDates)
+
+          console.log(dates);
+        }, 15 * 1000);
+    });
 })
 
 

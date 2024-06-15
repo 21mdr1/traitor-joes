@@ -1,12 +1,14 @@
 import './Input.scss';
 
-function Input({ id, name, placeholder, type, onChange, value }: {
+function Input({ id, name, placeholder, type, onChange, value, max, min }: {
     id: string;
     name: string;
     placeholder?: string;
     type: React.HTMLInputTypeAttribute;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     value?: string;
+    min?: string;
+    max?: string;
 }) {
     return (
         <input 
@@ -17,6 +19,8 @@ function Input({ id, name, placeholder, type, onChange, value }: {
             placeholder={placeholder}
             onChange={onChange}
             value={value}
+            max={max}
+            min={min}
         />
     );
 }

@@ -8,3 +8,17 @@
         align-items: center;
     }
 }
+
+.waiting {
+    &__background {
+        position: absolute;
+        inset: 0 0;
+        width: 100vw;
+        height: 100vh;
+        background: $gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+}

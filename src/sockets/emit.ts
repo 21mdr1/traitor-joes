@@ -43,7 +43,6 @@ function removePlayer(playerSocketId: string, value: ISocketContextValue) {
 
 function getPlayers(roomCode: string, setValue: socketContextSetter) {
     socket.emit('get-players', roomCode, (playerInfo: player[]) => {
-        console.log(playerInfo)
         setValue(state => ({...state, players:
             [...playerInfo]
         }));
@@ -55,4 +54,8 @@ function startGame({ value, setValue }: IContext) {
     socket.emit('start-game', roomCode);
 }
 
-export { addClientToQueue, getQueueLength, removeUserFromQueue, sendName, joinRoom, leaveRoom, getPlayers, removePlayer, startGame };
+function sendLastVisitDate(lastVisitDate: string) {
+    socket.emit('send-last-visit', lastVisitDate)
+}
+
+export { addClientToQueue, getQueueLength, removeUserFromQueue, sendName, joinRoom, leaveRoom, getPlayers, removePlayer, startGame, sendLastVisitDate };

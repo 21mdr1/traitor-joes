@@ -15,6 +15,7 @@ interface ClientToServerEvents {
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: {name: string, socketId: string}[]) => void) => void;
     'start-game': (roomCode: string) => void;
+    'send-last-visit': (lastVisitDate: string) => void;
 }
 
 interface InterServerEvents {

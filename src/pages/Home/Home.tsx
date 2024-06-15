@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import { generateRandomCode } from '../../utils/mathUtils';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
-import { joinRoom } from '../../sockets/emit';
+import { joinRoom, sendName } from '../../sockets/emit';
 import './Home.scss';
 
 function Home() {
@@ -17,12 +17,13 @@ function Home() {
     
     function handleFormSubmition(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        joinRoom({value, setValue}, workingCode, false)
+        sendName(value.userName);
+        joinRoom({value, setValue}, workingCode, false);
     }
 
     return (  
         <main className="main main--home">
-            <Button type="button" onClick={() => {joinRoom({value, setValue}, generateRandomCode(5), true)}}>New Game</Button>
+            <Button type="button" onClick={() => {sendName(value.userName); joinRoom({value, setValue}, generateRandomCode(5), true)}}>New Game</Button>
             <Button type="button" onClick={() => setJoiningGame(true)}>Join Game</Button>
             {joiningGame && (
                 <div className='room-form__container'>
