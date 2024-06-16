@@ -24,7 +24,7 @@ function App() {
         socket.connect();
         sendName(userName);
         setValue(state => ({...state, socketId: socket.id || ''}));
-    }, [setValue]);
+    }, [setValue, userName]);
 
     return (
         <>

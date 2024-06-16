@@ -22,7 +22,7 @@ let cardDict = {
 type cardType = 'bagel' | 'butter' | 'cheddar' | 'rotten'
 
 function Player() {
-        const [ info, setInfo ] = useState(false);
+        const [ info, setInfo ] = useState(true);
         const [ nextStoreLeader, setNextStoreLeader ] = useState(false);
         const [ hand, setHand ] = useState<cardType[]>([]);
         const [ otherPlayers, setOtherPlayers ] = useState<players[]>([]);

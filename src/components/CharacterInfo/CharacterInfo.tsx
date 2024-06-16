@@ -1,7 +1,13 @@
+import { useSocketContext } from '../socket_context/context';
+import traitor from '../../assets/images/roleCards/traitor_joe_4.png';
 import Button from '../Button/Button';
 import './CharacterInfo.scss';
 
 function CharacterInfo() {
+
+    let { value, setValue } = useSocketContext();
+    let { role } = value;
+
     return (
         <div className="info">
             <h1 className="info__title">You are a traitor</h1>
