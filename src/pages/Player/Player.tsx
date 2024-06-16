@@ -1,25 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CharacterInfo from '../../components/CharacterInfo/CharacterInfo';
 import NextStoreLeader from '../../components/NextStoreLeader/NextStoreLeader';
 import './Player.scss';
+import bagel from '../../assets/images/playingCards/everything_but_the_bagel_seasoning_37.png';
+import butter from '../../assets/images/playingCards/cookie_butter_12.png';
+import cheddar from '../../assets/images/playingCards/unexpected_cheddar_3.png';
+import rotten from '../../assets/images/playingCards/rotten_52.png'
+
+interface players {
+    name: string;
+    socketId: string;
+}
+
+let cardDict = {
+    bagel: bagel,
+    butter: butter,
+    cheddar: cheddar,
+    rotten: rotten,
+}
 
 function Player() {
         const [ info, setInfo ] = useState(false);
         const [ nextStoreLeader, setNextStoreLeader ] = useState(false);
+        const [ hand, setHand ] = useState<string[]>([]);
+        const [ otherPlayers, setOtherPlayers ] = useState<players[]>([]);
+
+        useEffect(() => {
+            setHand(
+                [
+                    'butter',
+                    'rotten',
+                    'cheddar'
+                ]
+            );
+
+            setOtherPlayers([
+                {name: 'maria', socketId: '1'},
+                {name: 'ben', socketId: '2'},
+                {name: 'christian', socketId: '3'},
+                {name: 'christien', socketId: '4'},
+                {name: 'katie', socketId: '5'},
+            ]);
+        }, []);
 
         return (
             <main className='main main--player'>
                 <div className="other-players">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => {
+                    {otherPlayers.map((player) => {
                         return (
-                            <div className='other-players__avi'></div>
+                            <div key={player.socketId} className='other-players__avi'></div>
                         );
                     })}
                 </div>
                 <div className="cards">
                     <h2 className="cards__title">Your cards:</h2>
                     <div className="cards__container">
-                        {[1, 2, 3, 4, 5, 6].map(() => {
+                        {hand.map((card) => {
                             return (
                                 <div className="cards__item"></div>
                             );
