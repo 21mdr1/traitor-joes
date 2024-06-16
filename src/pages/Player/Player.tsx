@@ -19,10 +19,12 @@ let cardDict = {
     rotten: rotten,
 }
 
+type cardType = 'bagel' | 'butter' | 'cheddar' | 'rotten'
+
 function Player() {
         const [ info, setInfo ] = useState(false);
         const [ nextStoreLeader, setNextStoreLeader ] = useState(false);
-        const [ hand, setHand ] = useState<string[]>([]);
+        const [ hand, setHand ] = useState<cardType[]>([]);
         const [ otherPlayers, setOtherPlayers ] = useState<players[]>([]);
 
         useEffect(() => {
@@ -48,7 +50,12 @@ function Player() {
                 <div className="other-players">
                     {otherPlayers.map((player) => {
                         return (
-                            <div key={player.socketId} className='other-players__avi'></div>
+                            <img 
+                                key={player.socketId} 
+                                className='other-players__avi' 
+                                src={`https://api.multiavatar.com/${player.name}.svg`}
+                                alt={player.name}
+                            />
                         );
                     })}
                 </div>
@@ -57,7 +64,12 @@ function Player() {
                     <div className="cards__container">
                         {hand.map((card) => {
                             return (
-                                <div className="cards__item"></div>
+                                <img 
+                                    key={card} 
+                                    className='cards__item' 
+                                    src={cardDict[card]}
+                                    alt={card}
+                                />
                             );
                         })}
                     </div>

@@ -11,7 +11,6 @@
     &__avi {
         width: calc((100% - 4rem)/5);
         aspect-ratio: 1;
-        background-color: red;
         border-radius: 50%;
     }
 }
@@ -31,8 +30,7 @@
 
     &__item {
         width: calc((100% - 2rem)/3);
-        aspect-ratio: 2 / 3;
-        background-color: red;
-        border-radius: 16px;
+        border-radius: 12px;
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.25);
     }
 }
