@@ -75,7 +75,7 @@ function Player() {
                     </div>
                 </div>
                 { info && <CharacterInfo setInfo={ setInfo } /> }
-                { nextStoreLeader && <NextStoreLeader/> }
+                { nextStoreLeader && <NextStoreLeader setNextStoreLeader={setNextStoreLeader}/> }
             </main>
         );
 }
