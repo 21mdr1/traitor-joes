@@ -11,6 +11,9 @@ interface ISocketContextValue {
     socketId: string;
     roomCode: string;
     players: player[];
+    hand: string[];
+    role: string;
+    leader: string;
 }
 
 type socketContextSetter = React.Dispatch<React.SetStateAction<ISocketContextValue>>;

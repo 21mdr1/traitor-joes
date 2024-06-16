@@ -10,6 +10,9 @@ const SocketContext = createContext<IContext>({
         socketId: '',
         roomCode: '',
         players: [],
+        hand: [],
+        role: '',
+        leader: 'no',
     }, 
     setValue: () => {} 
 });

@@ -15,6 +15,9 @@ function SocketProvider({ children }: {
         socketId: '',
         roomCode: '',
         players: [],
+        hand: [],
+        role: '',
+        leader: 'no',
     });
 
     useEffect(() => {
