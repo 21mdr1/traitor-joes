@@ -1,6 +1,7 @@
+import { roleCard, gameCard } from "./types";
 class GameDeck {
-    private deck: string[];
-    private discard: string[];
+    private deck: gameCard[];
+    private discard: gameCard[];
 
     constructor() {
 
@@ -12,17 +13,17 @@ class GameDeck {
 
     }
 
-    reset() {
+    reset(): void {
         this.discard = [];
 
         this.deck = 
-            Array<string>(37).fill('bagel')
-            .concat(Array<string>(12).fill('butter'))
-            .concat(Array<string>(3).fill('cheddar'))
-            .concat(Array<string>(52).fill('rotten'));
+            Array<gameCard>(37).fill('bagel')
+            .concat(Array<gameCard>(12).fill('butter'))
+            .concat(Array<gameCard>(3).fill('cheddar'))
+            .concat(Array<gameCard>(52).fill('rotten'));
     }
 
-    shuffle() {
+    shuffle(): void {
         let deckLength = this.deck.length;
 
         for (let i = 0; i < deckLength; i++) {
@@ -33,23 +34,19 @@ class GameDeck {
         }
     }
 
-    deal() {
-        let card = this.deck.pop() || '';
-
-        this.discard.push(card);
-
-        return card;
+    deal(): gameCard {
+        return this.deck.pop() || '';
     }
 
-    isEmpty() {
+    isEmpty(): boolean {
         return this.deck.length == 0;
     }
 
-    gameIsOver() {
+    gameIsOver(): boolean {
         return this.deck.length == 0 && this.discard.length == 0;
     }
 
-    reuseDiscardPile() {
+    reuseDiscardPile(): void {
         this.deck = [ ...this.discard ];
         this.discard = [];
 
@@ -59,7 +56,7 @@ class GameDeck {
 
 
 class RoleDeck {
-    private deck: string[];
+    private deck: roleCard[];
 
     constructor(numOfCards: number) {
         this.deck = [];
@@ -68,33 +65,33 @@ class RoleDeck {
         this.shuffle();
     }
 
-    reset(numOfCards: number) {
+    reset(numOfCards: number): void {
         this.deck = [];
 
         switch(numOfCards) {
             case 5:
-                this.deck.concat(Array<string>(3).fill('average'))
-                this.deck.concat(Array<string>(2).fill('traitor'))
+                this.deck.concat(Array<roleCard>(3).fill('average'))
+                this.deck.concat(Array<roleCard>(2).fill('traitor'))
                 break
             case 6:
-                this.deck.concat(Array<string>(4).fill('average'))
-                this.deck.concat(Array<string>(2).fill('traitor'))
+                this.deck.concat(Array<roleCard>(4).fill('average'))
+                this.deck.concat(Array<roleCard>(2).fill('traitor'))
                 break
             case 7:
-                this.deck.concat(Array<string>(4).fill('average'))
-                this.deck.concat(Array<string>(3).fill('traitor'))
+                this.deck.concat(Array<roleCard>(4).fill('average'))
+                this.deck.concat(Array<roleCard>(3).fill('traitor'))
                 break
             case 8:
-                this.deck.concat(Array<string>(5).fill('average'))
-                this.deck.concat(Array<string>(3).fill('traitor'))
+                this.deck.concat(Array<roleCard>(5).fill('average'))
+                this.deck.concat(Array<roleCard>(3).fill('traitor'))
                 break
             case 9:
-                this.deck.concat(Array<string>(5).fill('average'))
-                this.deck.concat(Array<string>(4).fill('traitor'))
+                this.deck.concat(Array<roleCard>(5).fill('average'))
+                this.deck.concat(Array<roleCard>(4).fill('traitor'))
                 break
             case 10:
-                this.deck.concat(Array<string>(6).fill('average'))
-                this.deck.concat(Array<string>(4).fill('traitor'))
+                this.deck.concat(Array<roleCard>(6).fill('average'))
+                this.deck.concat(Array<roleCard>(4).fill('traitor'))
                 break
             default:
                 return
@@ -102,7 +99,7 @@ class RoleDeck {
 
     }
 
-    shuffle() {
+    shuffle(): void {
         let deckLength = this.deck.length;
 
         for (let i = 0; i < deckLength; i++) {
@@ -113,13 +110,16 @@ class RoleDeck {
         }
     }
 
-    deal() {
+    deal(): roleCard {
 
-        return this.deck.pop();
+        return this.deck.pop() || '';
 
     }
 
-    isEmpty() {
+    isEmpty(): boolean {
         return this.deck.length == 0;
     }
 }
+
+
+export { GameDeck, RoleDeck }

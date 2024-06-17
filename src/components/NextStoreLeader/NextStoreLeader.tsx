@@ -10,7 +10,7 @@ function NextStoreLeader({ setNextStoreLeader }: {
     
     useEffect(() => {
         setLeader('Ben');
-    })
+    }, [ setLeader ])
 
     return (
         <Modal className='next-leader'>

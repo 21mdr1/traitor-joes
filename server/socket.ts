@@ -1,11 +1,15 @@
 import { Server } from 'socket.io';
+import { roleCard, player, gameCard, storeLeaderStatus } from './utils/types';
 
 interface ServerToClientEvents {
     'ask-to-leave': (roomCode: string) => void;
-    'user-was-added': (user: {name: string; socketId: string}) => void;
+    'user-was-added': (user: player) => void;
     'user-was-removed': (socketId: string) => void;
     'navigate-to': (page: string) => void;
     'get-date': (sendDate: (date: string) => void) => void;
+    'send-role': (role: roleCard) => void;
+    'send-hand': (hand: gameCard[]) => void;
+    'set-store-leader': (status: storeLeaderStatus) => void;
 }
 
 interface ClientToServerEvents {
@@ -13,7 +17,7 @@ interface ClientToServerEvents {
     'join-room': (roomCode: string) => void;
     'leave-room': (roomCode: string) => void;
     'remove-user': (socketId: string, roomCode: string) => void;
-    'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: {name: string, socketId: string}[]) => void) => void;
+    'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: player[]) => void) => void;
     'start-game': (roomCode: string) => void;
     'send-last-visit': (lastVisitDate: string) => void;
 }
@@ -25,7 +29,8 @@ interface InterServerEvents {
 interface SocketData {
     name: string;
     'last-visit': string;
-    role: string;
+    role: roleCard;
+    hand: gameCard[];
 }
 
 const io = new Server<
@@ -44,3 +49,4 @@ const io = new Server<
 });
 
 export default io;
+export type { ServerToClientEvents, ClientToServerEvents, SocketData};

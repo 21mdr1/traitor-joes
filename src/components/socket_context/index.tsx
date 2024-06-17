@@ -8,8 +8,6 @@ function SocketProvider({ children }: {
     children: ReactNode;
 }) {
     const [ value, setValue ] = useState<ISocketContextValue>({
-        queueLength: 0,
-        positionInLine: 0,
         isRoomOwner: false,
         userName: localStorage.getItem('name') || '',
         socketId: '',

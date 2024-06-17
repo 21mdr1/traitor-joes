@@ -1,16 +1,17 @@
 import { io, Socket } from 'socket.io-client';
 import { socketEvents } from './events';
-import { getQueueLength } from './emit';
 import { player, ISocketContextValue } from '../utils/types';
+import { roleCard, gameCard, storeLeaderStatus } from '../utils/types';
 
 interface ServerToClientEvents {
-    'queueLength': ({ queueLength }: any) => void;
-    'positionInLine': ({ positionInLine  }: any) => void;
     'ask-to-leave': (roomCode: string) => void;
     'user-was-added': (user: player) => void;
     'user-was-removed': (socketId: string) => void;
     'navigate-to': (page: string) => void;
     'get-date': (sendDate: (date: string) => void) => void;
+    'send-role': (role: roleCard) => void;
+    'send-hand': (hand: gameCard[]) => void;
+    'set-store-leader': (status: storeLeaderStatus) => void;
 }
 
 interface ClientToServerEvents {
@@ -21,10 +22,6 @@ interface ClientToServerEvents {
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: player[]) => void) => void;
     'start-game': (roomCode: string) => void;
     'send-last-visit': (lastVisitDate: string) => void;
-    'addClientToQueue': () => void;
-    'getQueueLength': () => void;
-    'removeUserFromQueue': () => void;
-    'queueLengthToSocket': () => void;
 }
 
 const URL = process.env.REACT_APP_WEBSOCKET_URL || 'http://localhost:8080';
@@ -36,7 +33,6 @@ function initSockets({ value, setValue }: {
     setValue: React.Dispatch<React.SetStateAction<ISocketContextValue>>;
 }) {
     socketEvents({ value, setValue });
-    getQueueLength();
 }
 
 export default socket;

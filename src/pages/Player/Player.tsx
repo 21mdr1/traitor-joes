@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useSocketContext } from '../../components/socket_context/context';
 import CharacterInfo from '../../components/CharacterInfo/CharacterInfo';
 import NextStoreLeader from '../../components/NextStoreLeader/NextStoreLeader';
 import './Player.scss';
@@ -7,48 +8,24 @@ import butter from '../../assets/images/playingCards/cookie_butter_12.png';
 import cheddar from '../../assets/images/playingCards/unexpected_cheddar_3.png';
 import rotten from '../../assets/images/playingCards/rotten_52.png'
 
-interface players {
-    name: string;
-    socketId: string;
-}
-
 let cardDict = {
     bagel: bagel,
     butter: butter,
     cheddar: cheddar,
     rotten: rotten,
+    '': '',
 }
-
-type cardType = 'bagel' | 'butter' | 'cheddar' | 'rotten'
 
 function Player() {
         const [ info, setInfo ] = useState(true);
         const [ nextStoreLeader, setNextStoreLeader ] = useState(false);
-        const [ hand, setHand ] = useState<cardType[]>([]);
-        const [ otherPlayers, setOtherPlayers ] = useState<players[]>([]);
-
-        useEffect(() => {
-            setHand(
-                [
-                    'butter',
-                    'rotten',
-                    'cheddar'
-                ]
-            );
-
-            setOtherPlayers([
-                {name: 'maria', socketId: '1'},
-                {name: 'ben', socketId: '2'},
-                {name: 'christian', socketId: '3'},
-                {name: 'christien', socketId: '4'},
-                {name: 'katie', socketId: '5'},
-            ]);
-        }, []);
+        const { value } = useSocketContext();
+        const { players, hand } = value;
 
         return (
             <main className='main main--player'>
                 <div className="other-players">
-                    {otherPlayers.map((player) => {
+                    {players.map((player) => {
                         return (
                             <img 
                                 key={player.socketId} 

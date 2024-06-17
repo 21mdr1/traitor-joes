@@ -2,23 +2,11 @@ import socket from './socket';
 import { player, IContext, ISocketContextValue,socketContextSetter } from '../utils/types';
 import { navigate } from '../App';
 
-function addClientToQueue() {
-    socket.emit('addClientToQueue');
-}
-
-function getQueueLength() {
-    socket.emit('queueLengthToSocket');
-}
-
-function removeUserFromQueue() {
-    socket.emit('removeUserFromQueue');
-}
-
 function sendName(name: string) {
     socket.emit('send-name', name);
 }
 
-function joinRoom({ value, setValue }: IContext, roomCode: string, isRoomOwner: boolean) {
+function joinRoom({ setValue }: IContext, roomCode: string, isRoomOwner: boolean) {
     socket.emit('join-room', roomCode);
     setValue(state => ({...state, isRoomOwner, roomCode}))
     navigate(`/room/${roomCode}`);
@@ -49,7 +37,7 @@ function getPlayers(roomCode: string, setValue: socketContextSetter) {
     });
 }
 
-function startGame({ value, setValue }: IContext) {
+function startGame({ value }: IContext) {
     const { roomCode } = value;
     socket.emit('start-game', roomCode);
 }
@@ -58,4 +46,4 @@ function sendLastVisitDate(lastVisitDate: string) {
     socket.emit('send-last-visit', lastVisitDate)
 }
 
-export { addClientToQueue, getQueueLength, removeUserFromQueue, sendName, joinRoom, leaveRoom, getPlayers, removePlayer, startGame, sendLastVisitDate };
+export { sendName, joinRoom, leaveRoom, getPlayers, removePlayer, startGame, sendLastVisitDate };

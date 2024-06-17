@@ -1,17 +1,15 @@
 import { createContext, useContext } from "react";
-import { IContext } from '../../utils/types';
+import { IContext, gameCard, player, roleCard } from '../../utils/types';
 
 const SocketContext = createContext<IContext>({ 
     value: {
-        queueLength: 0,
-        positionInLine: 0,
         isRoomOwner: false,
         userName: localStorage.getItem('name') || '',
         socketId: '',
         roomCode: '',
-        players: [],
-        hand: [],
-        role: '',
+        players: [] as player[],
+        hand: [] as gameCard[],
+        role: '' as roleCard,
         leader: 'no',
     }, 
     setValue: () => {} 

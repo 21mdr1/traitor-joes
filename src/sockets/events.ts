@@ -17,14 +17,6 @@ function socketEvents({ value, setValue }: IContext) {
         leaveRoom({ value, setValue });
     });
 
-    socket.on('queueLength', ({ queueLength }) => {
-        setValue(state => ({...state, queueLength}));
-    });
-
-    socket.on('positionInLine', ({ positionInLine }) => {
-        setValue(state => ({...state, positionInLine}));
-    });
-
     socket.on('user-was-added', (user) => {
         setValue(state => ({
             ...state,
@@ -39,7 +31,7 @@ function socketEvents({ value, setValue }: IContext) {
         }));
     });
 
-    socket.on('ask-to-leave', (roomCode) => {
+    socket.on('ask-to-leave', (_) => {
         leaveRoom({ value, setValue });
     });
 
@@ -51,18 +43,40 @@ function socketEvents({ value, setValue }: IContext) {
         let date = '1/1/2024'
         sendDate(date);
     });
+
+    socket.on('send-hand', (hand) => {
+        setValue(state => ({
+            ...state,
+            hand
+        }));
+    });
+
+    socket.on('send-role', (role) => {
+        setValue(state => ({
+            ...state,
+            role
+        }));
+    });
+
+    socket.on('set-store-leader', (status) => {
+        setValue(state => ({
+            ...state,
+            leader: status,
+        }));
+    })
 }
 
 function socketCleanUp() {
     socket.off('connect');
     socket.off('disconnect');
-    socket.off('queueLength');
-    socket.off('positionInLine');
     socket.off('user-was-added');
     socket.off('user-was-removed');
     socket.off('ask-to-leave');
     socket.off('navigate-to');
-    // socket.off('get-date');
+    socket.off('get-date');
+    socket.off('send-hand');
+    socket.off('send-role');
+    socket.off('set-store-leader');
 }
 
 export { socketEvents, socketCleanUp };
