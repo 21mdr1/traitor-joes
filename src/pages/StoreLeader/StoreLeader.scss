@@ -30,9 +30,7 @@
     
     &__team-item {
         width: calc((100% - 2rem) / 3);
-        aspect-ratio: 1;
         border-radius: 50%;
-        background-color: red;
     }
 
     &__shelf-container {

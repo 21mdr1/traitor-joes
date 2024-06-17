@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import { useSocketContext } from '../../components/socket_context/context';
 import Button from '../../components/Button/Button';
 import './StoreLeader.scss';
 
 function StoreLeader() {
 
-    const [ team, setTeam ] = useState(false);
-    const [ shelf, setShelf ] = useState(true);
+    const { value } = useSocketContext();
+    const { players, socketId } = value;
+
+    const [ team, setTeam ] = useState(true);
+    const [ shelf, setShelf ] = useState(false);
 
     return (
         <main className="main main--lead">
@@ -14,14 +18,19 @@ function StoreLeader() {
             <p className="lead__message">You are the Store Leader</p>
             <h1 className="lead__title">Pick your Team</h1>
             <div className="lead__team-container">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => {
+                {players.filter((player) => player.socketId !== socketId).map((player) => {
                     return (
-                        <div className="lead__team-item"></div>
+                        <img 
+                            key={player.socketId} 
+                            className='lead__team-item' 
+                            src={`https://api.multiavatar.com/${player.name}.svg`}
+                            alt={player.name}
+                        />
                     );
                 })}
             </div>
             <p className="lead__message">Choose 3 people</p>
-            <Button>Submit</Button>
+            <Button onClick={() => {setTeam(false); setShelf(true)}}>Submit</Button>
             </>
             )}
             {shelf && (
