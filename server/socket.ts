@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { roleCard, player, gameCard, storeLeaderStatus } from './utils/types';
+import { roleCard, player, gameCard, storeLeaderStatus, dateObj } from './utils/types';
 
 interface ServerToClientEvents {
     'ask-to-leave': (roomCode: string) => void;
@@ -19,7 +19,7 @@ interface ClientToServerEvents {
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: player[]) => void) => void;
     'start-game': (roomCode: string) => void;
-    'send-last-visit': (lastVisitDate: string) => void;
+    'send-last-visit': (lastVisitDate: dateObj) => void;
 }
 
 interface InterServerEvents {
@@ -28,9 +28,10 @@ interface InterServerEvents {
 
 interface SocketData {
     name: string;
-    'last-visit': string;
+    lastVisit: dateObj;
     role: roleCard;
     hand: gameCard[];
+    voted: boolean;
 }
 
 const io = new Server<

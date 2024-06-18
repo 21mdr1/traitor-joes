@@ -1,5 +1,5 @@
 import socket from './socket';
-import { player, IContext, ISocketContextValue,socketContextSetter } from '../utils/types';
+import { player, IContext, ISocketContextValue,socketContextSetter, dateObj } from '../utils/types';
 import { navigate } from '../App';
 
 function sendName(name: string) {
@@ -42,7 +42,7 @@ function startGame({ value }: IContext) {
     socket.emit('start-game', roomCode);
 }
 
-function sendLastVisitDate(lastVisitDate: string) {
+function sendLastVisitDate(lastVisitDate: dateObj) {
     socket.emit('send-last-visit', lastVisitDate)
 }
 

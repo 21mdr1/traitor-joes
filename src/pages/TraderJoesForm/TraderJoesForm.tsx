@@ -11,9 +11,15 @@ function TraderJoesForm() {
 
     function formSubmitionHandler(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        sendLastVisitDate(date);
-        setWaiting(true);
-        
+        let dateArr = date.split('-');
+
+        sendLastVisitDate({
+            year: Number(dateArr[0]),
+            month: Number(dateArr[1]),
+            day: Number(dateArr[2]),
+        })
+
+        setWaiting(true);    
     }
 
     function inputChangeHandler(event: React.ChangeEvent<HTMLInputElement>) {

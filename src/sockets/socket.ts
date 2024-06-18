@@ -1,6 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import { socketEvents } from './events';
-import { player, ISocketContextValue } from '../utils/types';
+import { player, ISocketContextValue, dateObj } from '../utils/types';
 import { roleCard, gameCard, storeLeaderStatus } from '../utils/types';
 
 interface ServerToClientEvents {
@@ -21,7 +21,7 @@ interface ClientToServerEvents {
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: player[]) => void) => void;
     'start-game': (roomCode: string) => void;
-    'send-last-visit': (lastVisitDate: string) => void;
+    'send-last-visit': (lastVisitDate: dateObj) => void;
 }
 
 const URL = process.env.REACT_APP_WEBSOCKET_URL || 'http://localhost:8080';

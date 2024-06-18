@@ -1,38 +1,62 @@
 import io from "../socket";
-import { IsocketWithDates, player } from "./types"
+import { IsocketWithDates, player, playerSocket } from "./types"
 
-async function getListOfSocketData(roomCode: string): Promise<player[]> {
-    let sockets = await io.in(roomCode).fetchSockets();
 
-    return sockets.map((socketInst) => {
-        return {
-            socketId: socketInst.id,
-            ...socketInst.data
+function votingIsDone(playerSockets: playerSocket[]) {
+
+    playerSockets.forEach(playerSocket => {
+        if(!playerSocket.data.voted) {
+            return false
         }
-    });
+    })
+
+    return true;
+}
+
+function resetVoting(playerSockets: playerSocket[]) {
+    playerSockets.forEach(playerSocket => {
+        playerSocket.data.voted = false;
+    })
+}
+
+
+function chooseNextStoreLeader(playerSockets: playerSocket[]) {
+    let players = playerSockets.map(
+        playerSocket => {
+            return {
+                name: playerSocket.data.name,
+                socketId: playerSocket.id,
+                date: playerSocket.data.lastVisit,
+            }
+        }
+    );
+
+    players.sort(sortByDates);
+
+    return players[0];
 }
 
 
 function sortByDates(a: IsocketWithDates, b: IsocketWithDates): number {
-    if (Number(a.date[0]) > Number(b.date[0])) {
+    if (a.date.year > b.date.year) {
         return -1
-    } else if (Number(a.date[0]) < Number(b.date[0])) {
-        return 1
-    }
-  
-    if (Number(a.date[1]) > Number(b.date[1])) {
-        return -1
-    } else if (Number(a.date[1]) < Number(b.date[1])) {
+    } else if (a.date.year < a.date.year) {
         return 1
     }
 
-    if (Number(a.date[2]) > Number(b.date[2])) {
+    if (a.date.month > b.date.month) {
         return -1
-    } else if (Number(a.date[2]) < Number(b.date[2])) {
+    } else if (a.date.month < a.date.month) {
+        return 1
+    }
+
+    if (a.date.day > b.date.day) {
+        return -1
+    } else if (a.date.day < a.date.day) {
         return 1
     }
       
     return 0
 }
 
-export { sortByDates, getListOfSocketData }
+export { sortByDates, chooseNextStoreLeader, votingIsDone, resetVoting }

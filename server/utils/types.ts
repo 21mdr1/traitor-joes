@@ -6,10 +6,14 @@ import { ServerToClientEvents, SocketData } from "../socket";
 type roleCard = 'average' | 'traitor' | '';
 type gameCard = 'bagel' | 'butter' | 'cheddar' | 'rotten' | '';
 type storeLeaderStatus = 'no' | 'current' | 'last' | '';
-
+type dateObj = {
+    year: number;
+    month: number;
+    day: number;
+}
 
 interface IsocketWithDates {
-    date: string[]
+    date: dateObj;
 }
 
 interface player {
@@ -20,6 +24,9 @@ interface player {
     hand?: gameCard[];
 }
 
-type playerSocket = RemoteSocket<DecorateAcknowledgementsWithMultipleResponses<ServerToClientEvents>, SocketData>;
+type playerSocket = RemoteSocket<
+    DecorateAcknowledgementsWithMultipleResponses<
+        ServerToClientEvents
+    >, SocketData>;
 
-export type { IsocketWithDates, player, roleCard, gameCard, playerSocket, storeLeaderStatus };
+export type { IsocketWithDates, player, roleCard, gameCard, playerSocket, storeLeaderStatus, dateObj };
