@@ -64,6 +64,14 @@ function socketEvents({ value, setValue }: IContext) {
             leader: status,
         }));
     });
+
+    socket.on('store-leader-decision', (decision) => {
+        if (decision) {
+            // TODO: notify players of decision with banner and go on with turn
+        } else {
+            // TODO: notify players and move go through voting again
+        }
+    });
 }
 
 function socketCleanUp() {

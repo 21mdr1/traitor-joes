@@ -92,6 +92,8 @@ io.on('connection', socket => {
             return
         }
 
+        resetVoting(playerSockets);
+        
         let yeses = 0; let nos = 0;
 
         playerSockets.forEach((playerSocket) => {
@@ -110,6 +112,7 @@ io.on('connection', socket => {
             socket.to(nextStoreLeader.id).emit('navigate-to', '/store-leader');
 
             io.in(roomCode).emit('store-leader-decision', true);
+            game.electStoreLeader();
 
         } else {
             socket.to(game.getStoreLeader().id).emit('set-store-leader', 'no');
@@ -118,6 +121,13 @@ io.on('connection', socket => {
             socket.to(game.getStoreLeader().id).emit('set-store-leader', 'potential');
 
             io.in(roomCode).emit('store-leader-decision', false);
+            game.skipStoreLeader();
+
+            if(game.timesStoreLeaderWasSkipped() >= 3) {
+                game.electStoreLeader();
+                game.turnRotten();
+                // TODO: notify room that good became rotten
+            } 
         }
 
     });

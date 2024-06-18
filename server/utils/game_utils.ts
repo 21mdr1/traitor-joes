@@ -12,6 +12,8 @@ class Game {
     private playedCards: string[];
     private averageWinCondition: number = 0;
     private traitorWinCondition: number = 0;
+    private timesSkipped: number = 0;
+    private turnedRotten: number = 0;
 
     constructor(players: playerSocket[]) {
         // get players and turn order
@@ -106,6 +108,22 @@ class Game {
 
     numberOfPlayers() {
         return this.players.length;
+    }
+
+    skipStoreLeader() {
+        this.timesSkipped += 1;
+    }
+
+    electStoreLeader() {
+        this.timesSkipped = 0;
+    }
+
+    timesStoreLeaderWasSkipped() {
+        return this.timesSkipped;
+    }
+
+    turnRotten() {
+        this.turnedRotten += 1;
     }
 }
 

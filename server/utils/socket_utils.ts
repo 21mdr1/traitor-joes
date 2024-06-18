@@ -13,11 +13,11 @@ function convertSocketToPlayer(socket: playerSocket): player {
 
 function votingIsDone(playerSockets: playerSocket[]) {
 
-    playerSockets.forEach(playerSocket => {
-        if(!playerSocket.data.voted) {
-            return false
+    for(let playerSocket of playerSockets) {
+        if (!playerSocket.data.voted) {
+            return false;
         }
-    })
+    }
 
     return true;
 }
@@ -49,19 +49,19 @@ function chooseNextStoreLeader(playerSockets: playerSocket[]) {
 function sortByDates(a: IsocketWithDates, b: IsocketWithDates): number {
     if (a.date.year > b.date.year) {
         return -1
-    } else if (a.date.year < a.date.year) {
+    } else if (a.date.year < b.date.year) {
         return 1
     }
 
     if (a.date.month > b.date.month) {
         return -1
-    } else if (a.date.month < a.date.month) {
+    } else if (a.date.month < b.date.month) {
         return 1
     }
 
     if (a.date.day > b.date.day) {
         return -1
-    } else if (a.date.day < a.date.day) {
+    } else if (a.date.day < b.date.day) {
         return 1
     }
       
