@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSocketContext } from '../../components/socket_context/context';
 import CharacterInfo from '../../components/CharacterInfo/CharacterInfo';
 import NextStoreLeader from '../../components/NextStoreLeader/NextStoreLeader';
@@ -18,7 +18,7 @@ let cardDict = {
 
 function Player() {
         const [ info, setInfo ] = useState(true);
-        const [ nextStoreLeader, setNextStoreLeader ] = useState(false);
+        const [ nextStoreLeader, setNextStoreLeader ] = useState(true);
         const { value } = useSocketContext();
         const { players, hand } = value;
 
@@ -51,8 +51,8 @@ function Player() {
                         })}
                     </div>
                 </div>
-                { info && <CharacterInfo setInfo={ setInfo } /> }
                 { nextStoreLeader && <NextStoreLeader setNextStoreLeader={setNextStoreLeader}/> }
+                { info && <CharacterInfo setInfo={ setInfo } /> }
             </main>
         );
 }

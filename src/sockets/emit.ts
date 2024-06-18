@@ -42,8 +42,18 @@ function startGame({ value }: IContext) {
     socket.emit('start-game', roomCode);
 }
 
-function sendLastVisitDate(lastVisitDate: dateObj) {
-    socket.emit('send-last-visit', lastVisitDate)
+function sendLastVisitDate(lastVisitDate: dateObj, { value }: IContext) {
+    socket.emit('send-last-visit', lastVisitDate, value.roomCode);
 }
 
-export { sendName, joinRoom, leaveRoom, getPlayers, removePlayer, startGame, sendLastVisitDate };
+function getStoreLeader(setLeader: React.Dispatch<React.SetStateAction<player>>) {
+    socket.emit('get-store-leader', (storeLeader) => {
+        setLeader(storeLeader);
+    });
+}
+
+function approveStoreLeader(vote: boolean, { value }: IContext) {
+    socket.emit('approve-store-leader', vote, value.roomCode);
+}
+
+export { sendName, joinRoom, leaveRoom, getPlayers, removePlayer, startGame, sendLastVisitDate, getStoreLeader, approveStoreLeader };

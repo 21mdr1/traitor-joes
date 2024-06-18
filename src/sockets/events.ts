@@ -63,7 +63,7 @@ function socketEvents({ value, setValue }: IContext) {
             ...state,
             leader: status,
         }));
-    })
+    });
 }
 
 function socketCleanUp() {

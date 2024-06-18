@@ -100,6 +100,10 @@ class Game {
         }
     }
 
+    getStoreLeader() {
+        return this.players[this.storeLeader];
+    }
+
     numberOfPlayers() {
         return this.players.length;
     }

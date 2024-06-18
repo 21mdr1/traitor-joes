@@ -1,6 +1,15 @@
 import io from "../socket";
 import { IsocketWithDates, player, playerSocket } from "./types"
 
+function convertSocketToPlayer(socket: playerSocket): player {
+    let player = {
+        socketId: socket.id,
+        ...socket.data
+    }
+
+    return player;
+}
+
 
 function votingIsDone(playerSockets: playerSocket[]) {
 
@@ -59,4 +68,4 @@ function sortByDates(a: IsocketWithDates, b: IsocketWithDates): number {
     return 0
 }
 
-export { sortByDates, chooseNextStoreLeader, votingIsDone, resetVoting }
+export { sortByDates, chooseNextStoreLeader, votingIsDone, resetVoting, convertSocketToPlayer }

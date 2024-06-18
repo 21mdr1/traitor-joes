@@ -10,6 +10,7 @@ interface ServerToClientEvents {
     'send-role': (role: roleCard) => void;
     'send-hand': (hand: gameCard[]) => void;
     'set-store-leader': (status: storeLeaderStatus) => void;
+    'store-leader-decision': (decision: boolean) => void;
 }
 
 interface ClientToServerEvents {
@@ -19,7 +20,9 @@ interface ClientToServerEvents {
     'remove-user': (socketId: string, roomCode: string) => void;
     'get-players': (roomCode: string, sendPlayerInfo: (playerInfo: player[]) => void) => void;
     'start-game': (roomCode: string) => void;
-    'send-last-visit': (lastVisitDate: dateObj) => void;
+    'send-last-visit': (lastVisitDate: dateObj, roomCode: string) => void;
+    'get-store-leader': (callback: (storeLeader: player) => void) => void;
+    'approve-store-leader': (vote: boolean, roomCode: string) => void;
 }
 
 interface InterServerEvents {
@@ -32,6 +35,7 @@ interface SocketData {
     role: roleCard;
     hand: gameCard[];
     voted: boolean;
+    vote: boolean;
 }
 
 const io = new Server<

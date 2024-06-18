@@ -1,5 +1,5 @@
 import io from "./socket";
-import { chooseNextStoreLeader, resetVoting, sortByDates, votingIsDone } from "./utils/socket_utils";
+import { chooseNextStoreLeader, convertSocketToPlayer, resetVoting, sortByDates, votingIsDone } from "./utils/socket_utils";
 import { Game } from "./utils/game_utils";
 
 let game: Game;
@@ -46,13 +46,11 @@ io.on('connection', socket => {
         socket.to(socketId).emit('ask-to-leave', roomCode);
     });
 
-    socket.on('send-last-visit', async lastVisitDate => {
+    socket.on('send-last-visit', async (lastVisitDate, roomCode) => {
         socket.data.lastVisit = lastVisitDate;
         socket.data.voted = true;
 
-        let roomId = [...socket.rooms].filter(room => room !== socket.id)[0];
-
-        let playerSockets = await io.in(roomId).fetchSockets();
+        let playerSockets = await io.in(roomCode).fetchSockets();
 
         if(!votingIsDone(playerSockets)) {
             return
@@ -62,11 +60,9 @@ io.on('connection', socket => {
 
         game.updateStoreLeader(-1, nextStoreLeader.socketId);
 
-        socket.to(nextStoreLeader.socketId).emit('set-store-leader', 'current');
+        socket.to(nextStoreLeader.socketId).emit('set-store-leader', 'potential');
 
-        // send people to player or store page
-        io.in(roomId).except(nextStoreLeader.socketId).emit('navigate-to', '/player');
-        io.to(nextStoreLeader.socketId).emit('navigate-to', '/store-leader');
+        io.in(roomCode).emit('navigate-to', '/player');
 
         resetVoting(playerSockets);
 
@@ -76,6 +72,54 @@ io.on('connection', socket => {
         game = new Game(await io.in(roomCode).fetchSockets());
 
         io.in(roomCode).emit('navigate-to', '/trader-joes');
+    });
+
+    socket.on('get-store-leader', (callback) => {
+        let storeLeaderSocket = game.getStoreLeader();
+        
+        let storeLeader = convertSocketToPlayer(storeLeaderSocket);
+
+        callback(storeLeader);
+    });
+
+    socket.on('approve-store-leader', async (vote, roomCode) => {
+        socket.data.voted = true;
+        socket.data.vote = vote;
+
+        let playerSockets = await io.in(roomCode).fetchSockets();
+
+        if(!votingIsDone(playerSockets)) {
+            return
+        }
+
+        let yeses = 0; let nos = 0;
+
+        playerSockets.forEach((playerSocket) => {
+            if (playerSocket.data.vote) {
+                yeses += 1;
+            } else {
+                nos += 1;
+            }
+        })
+        
+        if (yeses >= nos) {
+            let nextStoreLeader = game.getStoreLeader();
+
+            socket.to(nextStoreLeader.id).emit('set-store-leader', 'potential');
+
+            socket.to(nextStoreLeader.id).emit('navigate-to', '/store-leader');
+
+            io.in(roomCode).emit('store-leader-decision', true);
+
+        } else {
+            socket.to(game.getStoreLeader().id).emit('set-store-leader', 'no');
+
+            game.updateStoreLeader();
+            socket.to(game.getStoreLeader().id).emit('set-store-leader', 'potential');
+
+            io.in(roomCode).emit('store-leader-decision', false);
+        }
+
     });
 })
 

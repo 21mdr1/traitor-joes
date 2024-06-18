@@ -5,7 +5,7 @@ import { ServerToClientEvents, SocketData } from "../socket";
 
 type roleCard = 'average' | 'traitor' | '';
 type gameCard = 'bagel' | 'butter' | 'cheddar' | 'rotten' | '';
-type storeLeaderStatus = 'no' | 'current' | 'last' | '';
+type storeLeaderStatus = 'no' | 'current' | 'last' | 'potential' | '';
 type dateObj = {
     year: number;
     month: number;

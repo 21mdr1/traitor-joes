@@ -3,8 +3,11 @@ import Input from '../../components/Input/Input';
 import { useState } from 'react';
 import './TraderJoesForm.scss';
 import { sendLastVisitDate } from '../../sockets/emit';
+import { useSocketContext } from '../../components/socket_context/context';
 
 function TraderJoesForm() {
+
+    const socketContext = useSocketContext();
 
     const [ date, setDate ] = useState('');
     const [ waiting, setWaiting ] = useState(false);
@@ -17,7 +20,7 @@ function TraderJoesForm() {
             year: Number(dateArr[0]),
             month: Number(dateArr[1]),
             day: Number(dateArr[2]),
-        })
+        }, socketContext);
 
         setWaiting(true);    
     }
