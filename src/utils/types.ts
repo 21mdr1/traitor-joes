@@ -1,6 +1,7 @@
 type roleCard = 'average' | 'traitor' | '';
 type gameCard = 'bagel' | 'butter' | 'cheddar' | 'rotten' | '';
 type storeLeaderStatus = 'no' | 'current' | 'last' | 'potential' | '';
+type leaderDecisions = 'decided' | 'undecided' | 'na' | '';
 
 type dateObj = {
     year: number;
@@ -24,6 +25,7 @@ interface ISocketContextValue {
     hand: gameCard[];
     role: roleCard;
     leader: storeLeaderStatus;
+    leaderDecided: leaderDecisions;
 }
 
 type socketContextSetter = React.Dispatch<React.SetStateAction<ISocketContextValue>>;

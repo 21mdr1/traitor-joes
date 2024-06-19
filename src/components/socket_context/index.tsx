@@ -16,6 +16,7 @@ function SocketProvider({ children }: {
         hand: [],
         role: '',
         leader: 'no',
+        leaderDecided: 'na',
     });
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSocketContext } from '../../components/socket_context/context';
 import CharacterInfo from '../../components/CharacterInfo/CharacterInfo';
 import NextStoreLeader from '../../components/NextStoreLeader/NextStoreLeader';
@@ -7,6 +7,7 @@ import bagel from '../../assets/images/playingCards/everything_but_the_bagel_sea
 import butter from '../../assets/images/playingCards/cookie_butter_12.png';
 import cheddar from '../../assets/images/playingCards/unexpected_cheddar_3.png';
 import rotten from '../../assets/images/playingCards/rotten_52.png'
+import DecisionBanner from '../../components/DecisionBanner/DecisionBanner';
 
 let cardDict = {
     bagel: bagel,
@@ -20,7 +21,7 @@ function Player() {
         const [ info, setInfo ] = useState(true);
         const [ nextStoreLeader, setNextStoreLeader ] = useState(true);
         const { value } = useSocketContext();
-        const { players, hand } = value;
+        const { players, hand, leaderDecided } = value;
 
         return (
             <main className='main main--player'>
@@ -53,6 +54,7 @@ function Player() {
                 </div>
                 { nextStoreLeader && <NextStoreLeader setNextStoreLeader={setNextStoreLeader}/> }
                 { info && <CharacterInfo setInfo={ setInfo } /> }
+                { (leaderDecided === 'decided' || leaderDecided === 'undecided') && <DecisionBanner /> }
             </main>
         );
 }

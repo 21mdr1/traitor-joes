@@ -11,6 +11,7 @@ const SocketContext = createContext<IContext>({
         hand: [] as gameCard[],
         role: '' as roleCard,
         leader: 'no',
+        leaderDecided: 'na',
     }, 
     setValue: () => {} 
 });

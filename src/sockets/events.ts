@@ -66,10 +66,21 @@ function socketEvents({ value, setValue }: IContext) {
     });
 
     socket.on('store-leader-decision', (decision) => {
+        setValue(state => ({
+            ...state,
+            leaderDecision: decision,
+        }));
+
         if (decision) {
-            // TODO: notify players of decision with banner and go on with turn
+            setValue(state => ({
+                ...state,
+                leaderDecision: 'decided',
+            }));
         } else {
-            // TODO: notify players and move go through voting again
+            setValue(state => ({
+                ...state,
+                leaderDecision: 'undecided',
+            }));
         }
     });
 }
