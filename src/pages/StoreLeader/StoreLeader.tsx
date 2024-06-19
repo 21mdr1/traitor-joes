@@ -8,30 +8,62 @@ function StoreLeader() {
     const { value } = useSocketContext();
     const { players, socketId } = value;
 
-    const [ team, setTeam ] = useState(true);
+    const [ choosingTeam, setChoosingTeam ] = useState(true);
     const [ shelf, setShelf ] = useState(false);
+
+    const [ team, setTeam ] = useState<string[]>([]);
+
+    function handleFormSubmission(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        // notify players that they're part of the team
+        setChoosingTeam(false);
+        setShelf(true);
+    }
+
+    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { value, checked } = event.target
+
+        if (checked) {
+            setTeam(state => ([...state, value]))
+        } else {
+            setTeam(state => state.filter(member => member !== value))
+        }
+    }
 
     return (
         <main className="main main--lead">
-            {team && (
-            <>
-            <p className="lead__message">You are the Store Leader</p>
-            <h1 className="lead__title">Pick your Team</h1>
-            <div className="lead__team-container">
-                {players.filter((player) => player.socketId !== socketId).map((player) => {
-                    return (
-                        <img 
-                            key={player.socketId} 
-                            className='lead__team-item' 
-                            src={`https://api.multiavatar.com/${player.name}.svg`}
-                            alt={player.name}
-                        />
-                    );
-                })}
-            </div>
-            <p className="lead__message">Choose 3 people</p>
-            <Button onClick={() => {setTeam(false); setShelf(true)}}>Submit</Button>
-            </>
+            {choosingTeam && (
+                <form className='lead__container' onSubmit={handleFormSubmission}>
+                <p className="lead__message">You are the Store Leader</p>
+                <h1 className="lead__title">Pick your Team</h1>
+                <div className="lead-form">
+                    {players.filter((player) => player.socketId !== socketId).map((player) => {
+                        return (
+                            <label                  
+                                className={`lead-form__item ${team.includes(player.socketId) && 'lead-form__item--checked'}`} 
+                                key={player.socketId}
+                            >
+                                <input 
+                                    className='lead-form__checkbox'
+                                    type="checkbox"
+                                    id="team"
+                                    name="team"
+                                    value={player.socketId}
+                                    checked={team.includes(player.socketId)}
+                                    onChange={handleInputChange}
+                                />
+                                <img 
+                                    className='lead__image' 
+                                    src={`https://api.multiavatar.com/${player.name}.svg`}
+                                    alt={player.name}
+                                />
+                            </label>
+                        );
+                    })}
+                </div>
+                <p className="lead__message">Choose 3 people</p>
+                <Button>Submit</Button>
+                </form>
             )}
             {shelf && (
                 <>
